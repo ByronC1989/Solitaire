@@ -9,7 +9,7 @@ public enum Rank {
     private final int rankValue;
     private final String rankText;
 
-    private Rank(int rankValue, String rankText) {
+    Rank(int rankValue, String rankText) {
         // Constructor for Rank enum
         this.rankValue = rankValue;
         this.rankText = rankText;
