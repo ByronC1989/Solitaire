@@ -2,7 +2,7 @@ public class Card {
 
     private Suit suit;
     private Rank rank;
-    // Image of Front and Back of Card
+    // Image of Front and Back of Card add some images need to build GUI to display
     // private Image frontOfCard;
     // private Image backOfCard;
     private boolean isFaceDown;
