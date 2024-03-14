@@ -1,5 +1,15 @@
 public class Main {
     public static void main(String[] args) {
-        System.out.println("hello");
+
+        Card card = new Card(Rank.ACE, Suit.DIAMONDS);
+
+        // flipping a card.
+        System.out.println(card);
+        card.flipCard();
+        System.out.println(card);
+        card.flipCard();
+        System.out.println(card);
+
+
     }
 }
