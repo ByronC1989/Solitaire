@@ -6,7 +6,7 @@ public enum Suit {
 
     private final String suitString;
 
-    private Suit(String suitString){
+    Suit(String suitString){
         // Constructor for Suit enum
         this.suitString = suitString;
     }
