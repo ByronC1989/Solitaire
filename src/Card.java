@@ -1,16 +1,22 @@
 public class Card {
 
-    private Suit suit;
-    private Rank rank;
+    private final Suit suit;
+    private final Rank rank;
     // Image of Front and Back of Card add some images need to build GUI to display
     // private Image frontOfCard;
     // private Image backOfCard;
     private boolean isFaceDown;
+    private boolean isRed;
 
     public Card(Rank rank, Suit suit) {
         this.suit = suit;
         this.rank = rank;
         isFaceDown = true;
+
+        // determines if the card is red or black
+        if (suit == Suit.HEARTS || suit == Suit.DIAMONDS) {
+            this.isRed = true;
+        }
     }
 
     public String getSuit() {
@@ -19,6 +25,10 @@ public class Card {
 
     public int getRank() {
         return rank.getRank();
+    }
+
+    public boolean getIsRed() {
+        return isRed;
     }
 
     public boolean isFaceDown() {
