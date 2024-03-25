@@ -1,68 +1,38 @@
-import java.util.ArrayList;
-import java.util.List;
-
-public class Tableau {
-
-    private List<List<Card>> columns;
-
-    public Tableau() {
-        columns = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            columns.add(new ArrayList<>());
-        }
+class Tableau {
+    // Constructor to initialize the tableau with 7 columns
+    Tableau() {
+        // Initialize columns with 7 empty lists (representing each column in the
+        // tableau)
     }
 
-    public void initialize(Deck deck) {
-        for (int i = 0; i < columns.size(); i++) {
-            for (int j = 0; j <= i; j++) {
-                Card card = deck.drawCard();
-                if (j == i) {
-                    card.flipCard(); // Flip the last card in each column to face up
-                }
-                columns.get(i).add(card);
-            }
-        }
+    // Initialize the tableau with cards from the deck
+    initialize(Deck deck) {
+ 
     }
 
-    public List<Card> getColumn(int index) {
-        if (index >= 0 && index < columns.size()) {
-            return columns.get(index);
-        }
-        return null; // Or throw an exception
+    // Get the column at a specific index
+    getColumn(int index) {
+
     }
 
-    public Card peekTopCard(int columnIndex) {
-        List<Card> column = getColumn(columnIndex);
-        if (column != null && !column.isEmpty()) {
-            return column.get(column.size() - 1);
-        }
-        return null; // Or throw an exception
+    // Peek at the top card of a specific column
+    peekTopCard(int columnIndex) {
+
     }
 
-    public List<Card> removeCards(int columnIndex, int fromIndex) {
-        List<Card> column = getColumn(columnIndex);
-        if (column == null || fromIndex < 0 || fromIndex >= column.size()) {
-            return null; // Or throw an exception
-        }
+    // Remove and return a list of cards from a specific column, starting from a
+    // specified index
+    removeCards(int columnIndex, int fromIndex) {
 
-        List<Card> removedCards = new ArrayList<>(column.subList(fromIndex, column.size()));
-        column.subList(fromIndex, column.size()).clear();
-        return removedCards;
     }
 
-    public void addCards(int columnIndex, List<Card> cards) {
-        List<Card> column = getColumn(columnIndex);
-        if (column != null && cards != null) {
-            column.addAll(cards);
-        }
+    // Add a list of cards to the end of a specific column
+    addCards(int columnIndex, List<Card> cards) {
+    
     }
 
-    public void printTableau() {
-        for (int i = 0; i < columns.size(); i++) {
-            System.out.println("Column " + (i + 1) + ":");
-            for (Card card : columns.get(i)) {
-                System.out.println(card);
-            }
-        }
+    // Print the current state of the tableau
+    printTableau() {
+       
     }
 }
