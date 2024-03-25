@@ -6,12 +6,12 @@ public class Deck {
 
     private final ArrayList<Card> cards;
 
-    public Deck(){
+    public Deck() {
         // create Card Array
         cards = new ArrayList<Card>();
 
-        for(Suit suit: Suit.values()) {
-            for(Rank rank: Rank.values()) {
+        for (Suit suit : Suit.values()) {
+            for (Rank rank : Rank.values()) {
                 Card card = new Card(rank, suit);
                 card.flipCard(); // remove this after testing so that cards are facedown.
                 cards.add(card);
@@ -34,15 +34,23 @@ public class Deck {
 
     public String printDeck() {
         String str = "";
-        for (Card c: cards){
+        for (Card c : cards) {
             str += c.toString() + "\n";
         }
         return str;
     }
 
-    public Card drawCard(){
+    // public Card drawCard() {
+    // if (!cards.isEmpty()) {
+    // return cards.removeFirst();
+    // }
+    // return null;
+    // }
+
+    // temp method to test the draw card method
+    public Card drawCard() {
         if (!cards.isEmpty()) {
-            return cards.removeFirst();
+            return cards.remove(0);
         }
         return null;
     }
