@@ -1,11 +1,11 @@
 public class Main {
         public static void main(String[] args) {
 
-                Card card = new Card(Rank.ACE, Suit.DIAMONDS);
-
-                System.out.println(card.displayCard());
-                card.flipCard();
-                System.out.println(card.displayCard());
+//                Card card = new Card(Rank.ACE, Suit.DIAMONDS);
+//
+//                System.out.println(card.displayCard());
+//                card.flipCard();
+//                System.out.println(card.displayCard());
                 //
                 // // flipping a card.
                 // System.out.println(card);
@@ -16,6 +16,7 @@ public class Main {
 
                 // Create deck of cards
                 Deck deck = new Deck();
+                Tableau tableau = new Tableau();
 
                 // System.out.println("Deck Before Shuffling: ");
                 // System.out.println(deck.printDeck());
@@ -23,6 +24,12 @@ public class Main {
                 // Cards");
 
                 deck.shuffleDeck();
+                tableau.initialize(deck);
+
+                tableau.printTableau();
+
+                System.out.println(deck.deckSize() + " Left in the deck");
+
 
                 // System.out.println("Deck After Shuffling: ");
                 // System.out.println(deck.printDeck());
