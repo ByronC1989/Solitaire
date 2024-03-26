@@ -1,8 +1,8 @@
 public enum Suit {
-    HEARTS("Hearts"),
-    SPADES("Spades"),
-    DIAMONDS("Diamonds"),
-    CLUBS("Clubs");
+    HEARTS("hearts"),
+    SPADES("spades"),
+    DIAMONDS("diamonds"),
+    CLUBS("clubs");
 
     private final String suitString;
 
