@@ -1,10 +1,12 @@
+import java.awt.*;
+
 public class Card {
 
     private final Suit suit;
     private final Rank rank;
     // Image of Front and Back of Card add some images need to build GUI to display
-    // private Image frontOfCard;
-    // private Image backOfCard;
+    private final String frontOfCard;
+    private final String backOfCard;
     private boolean isFaceDown;
     private boolean isRed;
 
@@ -17,6 +19,9 @@ public class Card {
         if (suit == Suit.HEARTS || suit == Suit.DIAMONDS) {
             this.isRed = true;
         }
+        this.frontOfCard = "./images/" + rank.displayRank() + "_of_" + suit.displaySuit() + ".png";
+        this.backOfCard = "./images/01_back.png";
+
     }
 
     public String getSuit() {
@@ -31,7 +36,7 @@ public class Card {
         return isRed;
     }
 
-    public boolean isFaceDown() {
+    public boolean getIsFaceDown() {
         return isFaceDown;
     }
 
@@ -53,5 +58,13 @@ public class Card {
         return cardText;
     }
 
+    public String displayCard(){
+        // return filepath for cards.
+        if(isFaceDown) {
+            return backOfCard;
+        } else {
+            return frontOfCard;
+        }
+    }
 
 }
