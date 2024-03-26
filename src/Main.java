@@ -1,7 +1,11 @@
 public class Main {
     public static void main(String[] args) {
 
-//        Card card = new Card(Rank.ACE, Suit.DIAMONDS);
+        Card card = new Card(Rank.ACE, Suit.DIAMONDS);
+
+        System.out.println(card.displayCard());
+        card.flipCard();
+        System.out.println(card.displayCard());
 //
 //        // flipping a card.
 //        System.out.println(card);
