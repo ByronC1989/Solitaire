@@ -40,16 +40,9 @@ public class Deck {
         return str;
     }
 
-    // public Card drawCard() {
-    // if (!cards.isEmpty()) {
-    // return cards.removeFirst();
-    // }
-    // return null;
-    // }
-
-    // temp method to test the draw card method
     public Card drawCard() {
-        if (!cards.isEmpty()) {
+        // this method can return null if the deck is empty.
+        if (deckSize() > 0) {
             return cards.remove(0);
         }
         return null;

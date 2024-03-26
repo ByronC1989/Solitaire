@@ -20,7 +20,7 @@ public enum Rank {
         return rankValue;
     }
 
-    public String displayRank(){
+    public String displayRank() {
         return rankText;
     }
 }
