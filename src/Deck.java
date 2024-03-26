@@ -41,9 +41,14 @@ public class Deck {
     }
 
     public Card drawCard(){
-        if (!cards.isEmpty()) {
+        // this method can return null if the deck is empty.
+        if (deckSize() > 0) {
             return cards.removeFirst();
         }
         return null;
+    }
+
+    public int deckSize(){
+        return cards.size();
     }
 }
