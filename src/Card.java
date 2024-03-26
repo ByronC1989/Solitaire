@@ -40,16 +40,16 @@ public class Card {
         return isFaceDown;
     }
 
-    public void flipCard(){
+    public void flipCard() {
         // flips isFaceDown value to true and false
         // flipping the card
         isFaceDown = !isFaceDown;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         String cardText = "";
-        if(isFaceDown) {
+        if (isFaceDown) {
             cardText = "Card is Face Down";
         } else {
             cardText += rank.displayRank() + " of "
@@ -58,9 +58,9 @@ public class Card {
         return cardText;
     }
 
-    public String displayCard(){
+    public String displayCard() {
         // return filepath for cards.
-        if(isFaceDown) {
+        if (isFaceDown) {
             return backOfCard;
         } else {
             return frontOfCard;

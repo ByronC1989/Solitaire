@@ -6,12 +6,12 @@ public enum Suit {
 
     private final String suitString;
 
-    Suit(String suitString){
+    Suit(String suitString) {
         // Constructor for Suit enum
         this.suitString = suitString;
     }
 
-    public String displaySuit(){
+    public String displaySuit() {
         // access the value of the rank
         return suitString;
     }
