@@ -70,6 +70,31 @@ public class Tableau {
         }
     }
 
+    // Only accept cards of the opposite colour in the tableau.
+    public void addCard(int columnIndex, Card card) {
+        List<Card> column = getColumn(columnIndex);
+        // if the tableau is empty and the card being added is a king add the card.
+        if(column.isEmpty() && card.getRank() == 13){
+            column.add(card);
+        }
+        // if card is less then the card before it.
+        if(peekTopCard(columnIndex).getRank() - 1 == card.getRank()) {
+            // if the card is red only add a black card.
+            if (peekTopCard(columnIndex) != null) {
+                if(peekTopCard(columnIndex).getIsRed()){
+                    if(!card.getIsRed()){
+                        column.add(card);
+                    }
+                    // if the card is black only add a red card.
+                } else if(!peekTopCard(columnIndex).getIsRed()) {
+                    if(card.getIsRed()){
+                        column.add(card);
+                    }
+                }
+            }
+        }
+    }
+
     // Check if the card can be moved to the column
     // USE FOR DEBUGGING/TEXT REPRESENTATION BEFORE SWING IMPLEMENTATION
     public void printTableau() {
