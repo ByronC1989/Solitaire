@@ -6,8 +6,8 @@ public class Main {
                 System.out.println(card.displayCard());
                 card.flipCard();
                 System.out.println(card.displayCard());
-                //
-                // // flipping a card.
+
+                // flipping a card.
                 // System.out.println(card);
                 // card.flipCard();
                 // System.out.println(card);
@@ -24,10 +24,10 @@ public class Main {
 
                 deck.shuffleDeck();
 
-                // System.out.println("Deck After Shuffling: ");
-                // System.out.println(deck.printDeck());
-                //
-                //
+//                 System.out.println("Deck After Shuffling: ");
+//                 System.out.println(deck.printDeck());
+//
+
                 // System.out.println(deck.drawCard() + " was drawn from the deck");
                 // System.out.println("Deck After drawing a card: ");
                 // System.out.println(deck.printDeck());
