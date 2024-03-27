@@ -1,8 +1,26 @@
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.Graphics;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import javax.swing.border.AbstractBorder;
+
+class RoundBorder extends AbstractBorder {
+    private int radius;
+
+    public RoundBorder(int radius) {
+        this.radius = radius;
+    }
+
+    @Override
+    public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+        Graphics2D g2d = (Graphics2D) g.create();
+        g2d.setColor(Color.white);
+        g2d.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
+        g2d.dispose();
+    }
+}
 
 class Board {
     public static void main (String [] args){
@@ -21,26 +39,61 @@ class Board {
         panel.add(label);
 
         ImageIcon backOfCard = new ImageIcon("src/Images/01_back.png");
-        ImageIcon emptySlot = new ImageIcon("src/Images/bottom.png");
 
-        Image img = backOfCard.getImage();
-        Image scaledImg = img.getScaledInstance(72, 90, Image.SCALE_SMOOTH);
-        ImageIcon scaledIcon = new ImageIcon(scaledImg);
+        int width = 72;
+        int height = 90;
+        Image img1 = backOfCard.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
 
-        JLabel imageLabel = new JLabel(scaledIcon);
-        JLabel imageLabel2 = new JLabel(emptySlot);
+        ImageIcon scaledIcon1 = new ImageIcon(img1);
 
+        JLabel imageLabel = new JLabel(scaledIcon1);
+        JLabel pileLabel2 = new JLabel();
+        JLabel pileLabel3 = new JLabel();
+        JLabel pileLabel4 = new JLabel();
+        JLabel pileLabel5 = new JLabel();
+        JLabel pileLabel6 = new JLabel();
+
+
+        int roundRadius = 10;
+        pileLabel3.setBorder(new RoundBorder(roundRadius));
+        pileLabel2.setBorder(new RoundBorder(roundRadius));
+        pileLabel4.setBorder(new RoundBorder(roundRadius));
+        pileLabel5.setBorder(new RoundBorder(roundRadius));
+        pileLabel6.setBorder(new RoundBorder(roundRadius));
 
         panel.setLayout(null);
         panel.add(imageLabel);
-
+        panel.add(pileLabel2);
+        panel.add(pileLabel3);
+        panel.add(pileLabel4);
+        panel.add(pileLabel5);
+        panel.add(pileLabel6);
         panel.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-        int x = panel.getWidth() - scaledIcon.getIconWidth() - 20;
-        int y = 20;
-        imageLabel.setBounds(x, y, 72, 90);
-        panel.add(imageLabel);
+                int x1 = panel.getWidth() - width - 20;
+                int y1 = 20;
+                imageLabel.setBounds(x1, y1, width, height);
+
+                int x2 = x1 - 100;
+                int y2 = 20;
+                pileLabel2.setBounds(x2, y2, width, height);
+
+                int x3 = 20;
+                int y3 = 20;
+                pileLabel3.setBounds(x3, y3, width, height);
+
+                int x4 = 100;
+                int y4 = 20;
+                pileLabel4.setBounds(x4, y4, width, height);
+
+                int x5 = 180;
+                int y5 = 20;
+                pileLabel5.setBounds(x5, y5, width, height);
+
+                int x6 = 260;
+                int y6 = 20;
+                pileLabel6.setBounds(x6, y6, width, height);
             }
         });
         frame.getContentPane().add(panel);
