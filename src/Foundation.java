@@ -2,41 +2,46 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Foundation {
-    // Initialize the foundation with four piles
+    // Initialize the foundation with four piles, one for each suit.
     private final List<List<Card>> piles;
 
     public Foundation() {
-        // Initialize four empty piles
-        piles = new ArrayList<>(4);
+        piles = new ArrayList<>(4); // One for each suit
         for (int i = 0; i < 4; i++) {
-            // Create an empty pile for each suit.
-            piles.add(new ArrayList<>());
+            piles.add(new ArrayList<>()); // Create an empty list for each suit
         }
     }
 
-    // Determine if a card can be placed on a specific suit pile.
+    // Check if a card can be placed on a specific suit pile.
+    // A card can be placed if it's an Ace (when the pile is empty) or one rank
+    // higher than the top card of the same suit.
     public boolean canPlace(Card card, Suit suit) {
-        /*
-         * Logic should check if the card can be placed in the specific suit pile.
-         * If the pile is empty, only an Ace can be placed.
-         * If the pile is not empty, the card must be one rank higher and of the same
-         * suit as the top card of the pile.
-         */
-        return false; // Placeholder return value.
+        List<Card> pile = piles.get(suit.ordinal()); // Get the pile corresponding to the suit
+        if (pile.isEmpty()) {
+            return card.getRank() == 1; // Check if the card is an Ace
+        } else {
+            Card topCard = pile.get(pile.size() - 1); // Get the top card of the pile
+            // Check if the card is the next rank in the same suit
+            return card.getSuit().equals(suit) && card.getRank() == topCard.getRank() + 1;
+        }
     }
 
-    // Place a card on the appropriate suit pile if the move is valid.
+    // Place a card on the correct suit pile if the move is valid.
     public void place(Card card, Suit suit) {
-        /*
-         * Logic should first check if the card can be placed using the canPlace method.
-         * If the card can be placed, add it to the respective suit pile.
-         * If the card cannot be placed, throw an IllegalArgumentException.
-         */
+        if (canPlace(card, suit)) {
+            piles.get(suit.ordinal()).add(card); // Add the card to the corresponding pile
+        } else {
+            throw new IllegalArgumentException("Cannot place card here"); // Throw an error if the move is not valid
+        }
     }
 
     // Count the total number of cards in all foundation piles.
+    // This can be useful for tracking progress or determining if the game is won.
     public int count() {
-        // Logic should iterate over all piles and count the total number of cards.
-        return 0; // Placeholder return value.
+        int total = 0;
+        for (List pile : piles) {
+            total += pile.size();
+        }
+        return total;
     }
 }
