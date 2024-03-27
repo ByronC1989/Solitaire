@@ -19,8 +19,8 @@ public class Card {
         if (suit == Suit.HEARTS || suit == Suit.DIAMONDS) {
             this.isRed = true;
         }
-        this.frontOfCard = "./images/" + rank.displayRank() + "_of_" + suit.displaySuit() + ".png";
-        this.backOfCard = "./images/01_back.png";
+        this.frontOfCard = "src/Images/" + rank.displayRank() + "_of_" + suit.displaySuit() + ".png";
+        this.backOfCard = "src/Images/01_back.png";
 
     }
 

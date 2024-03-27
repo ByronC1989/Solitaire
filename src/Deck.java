@@ -13,7 +13,7 @@ public class Deck {
         for (Suit suit : Suit.values()) {
             for (Rank rank : Rank.values()) {
                 Card card = new Card(rank, suit);
-                card.flipCard(); // remove this after testing so that cards are facedown.
+                // card.flipCard(); // remove this after testing so that cards are facedown.
                 cards.add(card);
             }
         }
