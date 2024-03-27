@@ -20,13 +20,15 @@ class Board {
         JLabel label = new JLabel("Solitaire");
         panel.add(label);
 
-        ImageIcon icon = new ImageIcon("src/Images/01_back.png");
+        ImageIcon backOfCard = new ImageIcon("src/Images/01_back.png");
+        ImageIcon emptySlot = new ImageIcon("src/Images/bottom.png");
 
-        Image img = icon.getImage();
+        Image img = backOfCard.getImage();
         Image scaledImg = img.getScaledInstance(72, 90, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImg);
 
         JLabel imageLabel = new JLabel(scaledIcon);
+        JLabel imageLabel2 = new JLabel(emptySlot);
 
 
         panel.setLayout(null);
