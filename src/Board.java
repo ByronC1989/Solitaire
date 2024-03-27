@@ -52,6 +52,13 @@ class Board {
         JLabel pileLabel4 = new JLabel();
         JLabel pileLabel5 = new JLabel();
         JLabel pileLabel6 = new JLabel();
+        JLabel pileLabel7 = new JLabel();
+        JLabel pileLabel8 = new JLabel();
+        JLabel pileLabel9 = new JLabel();
+        JLabel pileLabel10 = new JLabel();
+        JLabel pileLabel11= new JLabel();
+        JLabel pileLabel12= new JLabel();
+        JLabel pileLabel13= new JLabel();
 
 
         int roundRadius = 10;
@@ -60,6 +67,13 @@ class Board {
         pileLabel4.setBorder(new RoundBorder(roundRadius));
         pileLabel5.setBorder(new RoundBorder(roundRadius));
         pileLabel6.setBorder(new RoundBorder(roundRadius));
+        pileLabel7.setBorder(new RoundBorder(roundRadius));
+        pileLabel8.setBorder(new RoundBorder(roundRadius));
+        pileLabel9.setBorder(new RoundBorder(roundRadius));
+        pileLabel10.setBorder(new RoundBorder(roundRadius));
+        pileLabel11.setBorder(new RoundBorder(roundRadius));
+        pileLabel12.setBorder(new RoundBorder(roundRadius));
+        pileLabel13.setBorder(new RoundBorder(roundRadius));
 
         panel.setLayout(null);
         panel.add(imageLabel);
@@ -68,14 +82,21 @@ class Board {
         panel.add(pileLabel4);
         panel.add(pileLabel5);
         panel.add(pileLabel6);
+        panel.add(pileLabel7);
+        panel.add(pileLabel8);
+        panel.add(pileLabel9);
+        panel.add(pileLabel10);
+        panel.add(pileLabel11);
+        panel.add(pileLabel12);
+        panel.add(pileLabel13);
         panel.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                int x1 = panel.getWidth() - width - 20;
+                int x1 = 420;
                 int y1 = 20;
                 imageLabel.setBounds(x1, y1, width, height);
 
-                int x2 = x1 - 100;
+                int x2 = 500;
                 int y2 = 20;
                 pileLabel2.setBounds(x2, y2, width, height);
 
@@ -94,6 +115,34 @@ class Board {
                 int x6 = 260;
                 int y6 = 20;
                 pileLabel6.setBounds(x6, y6, width, height);
+
+                int x7 = 20;
+                int y7 = 150;
+                pileLabel7.setBounds(x7, y7, width, height);
+
+                int x8 = 100;
+                int y8 = 150;
+                pileLabel8.setBounds(x8, y8, width, height);
+
+                int x9 = 180;
+                int y9 = 150;
+                pileLabel9.setBounds(x9, y9, width, height);
+
+                int x10 = 260;
+                int y10 = 150;
+                pileLabel10.setBounds(x10, y10, width, height);
+
+                int x11 = 340;
+                int y11 = 150;
+                pileLabel11.setBounds(x11, y11, width, height);
+
+                int x12 = 420;
+                int y12 = 150;
+                pileLabel12.setBounds(x12, y12, width, height);
+
+                int x13 = 500;
+                int y13 = 150;
+                pileLabel13.setBounds(x13, y13, width, height);
             }
         });
         frame.getContentPane().add(panel);
