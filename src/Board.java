@@ -104,11 +104,11 @@ class Board {
             @Override
             public void componentResized(ComponentEvent e) {
                 //display labelTest in Talon border
-                int x0 = 500;
+                int x0 = 420;
                 int y0 = 20;
                 imageLabelTest.setBounds(x0, y0, width, height);
 
-                int x1 = 420;
+                int x1 = 500;
                 int y1 = 20;
                 imageLabel.setBounds(x1, y1, width, height);
 
