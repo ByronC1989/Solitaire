@@ -39,17 +39,55 @@ class Board {
         JLabel label = new JLabel("Solitaire");
         panel.add(label);
 
-        ImageIcon backOfCard = new ImageIcon("Solitaire/src/Images/01_back.png");
+        ImageIcon backOfCard = new ImageIcon("src/Images/01_back.png");
+        //ImageIcon backOfCard = new ImageIcon("Solitaire/src/Images/01_back.png");
 
         int width = 72;
         int height = 90;
         Image img1 = backOfCard.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
 
-        //added testCard object to test displayCard and flipCard function//
-        Card testCard = new Card(Rank.KING, Suit.HEARTS);
-        testCard.flipCard(); //test flipCard
+        //----------------------------------------------- DEMO --------------------------------------------\
+        /*
+        * Add demo for:
+        *   Tableau cards can only be stacked in alternating colors
+            Spare tableau spots can only be filled with kings
+            Foundations can only be filled starting with an ace
+        * */
+
+        Deck deck = new Deck();
+
+        System.out.println("Deck contains: " + deck.deckSize() + " cards");
+
+        // deck before shuffling -- deck can be shuffled demo.
+        System.out.println("Deck before shuffling!\n");
+        deck.printDeck();
+
+        // deck after shuffling -- deck can be shuffled demo
+        System.out.println("Deck After shuffling!\n");
+        deck.shuffleDeck();
+        deck.printDeck();
+
+        Tableau tableau = new Tableau();
+        tableau.initialize(deck);
+
+        // show deck size is reduced after creating tableau
+        System.out.println("\n\nDeck contains: " + deck.deckSize() + " cards after drawing for tableau");
+
+        System.out.println("\nPrinting tableau's with the correct number of cards per column\n");
+        tableau.printTableau();
+
+        // Card displays both suit and rank for correct card demo
+
+        //added testCard object to test displayCard and flipCard function
+        Card testCard = deck.drawCard();
+        testCard.flipCard(); //test flipCard -- comment out to show back of card in demo
         ImageIcon testIcon = testCard.displayCard();
-        ///////////////////////////////////////////////////////////////////
+
+        System.out.println("\n\nDrawing a card from the deck!");
+        System.out.println(testCard + " was drawn from the deck!");
+        System.out.println("Deck contains: " + deck.deckSize() + " cards after drawing a card!");
+
+        //----------------------------------------------- DEMO --------------------------------------------
 
         ImageIcon scaledIcon1 = new ImageIcon(img1);
 
