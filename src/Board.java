@@ -6,7 +6,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.border.AbstractBorder;
 
-class RoundBorder extends AbstractBorder {
+class RoundBorder extends AbstractBorder { // make the card slots rounded
     private int radius;
 
     public RoundBorder(int radius) {
@@ -14,13 +14,14 @@ class RoundBorder extends AbstractBorder {
     }
 
     @Override
-    public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+    public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) { // design of card slots
         Graphics2D g2d = (Graphics2D) g.create();
         g2d.setColor(Color.white);
         g2d.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
         g2d.dispose();
     }
-}
+
+}//end class RoundBorder
 
 class Board {
     public static void main (String [] args){
@@ -38,11 +39,17 @@ class Board {
         JLabel label = new JLabel("Solitaire");
         panel.add(label);
 
-        ImageIcon backOfCard = new ImageIcon("src/Images/01_back.png");
+        ImageIcon backOfCard = new ImageIcon("Solitaire/src/Images/01_back.png");
 
         int width = 72;
         int height = 90;
         Image img1 = backOfCard.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+
+        //added testCard object to test displayCard and flipCard function//
+        Card testCard = new Card(Rank.KING, Suit.HEARTS);
+        testCard.flipCard(); //test flipCard
+        ImageIcon testIcon = testCard.displayCard();
+        ///////////////////////////////////////////////////////////////////
 
         ImageIcon scaledIcon1 = new ImageIcon(img1);
 
@@ -59,6 +66,8 @@ class Board {
         JLabel pileLabel11= new JLabel();
         JLabel pileLabel12= new JLabel();
         JLabel pileLabel13= new JLabel();
+        //create test card label
+        JLabel imageLabelTest = new JLabel(testIcon);
 
 
         int roundRadius = 10;
@@ -76,6 +85,8 @@ class Board {
         pileLabel13.setBorder(new RoundBorder(roundRadius));
 
         panel.setLayout(null);
+        //display test card on panel
+        panel.add(imageLabelTest);
         panel.add(imageLabel);
         panel.add(pileLabel2);
         panel.add(pileLabel3);
@@ -92,7 +103,12 @@ class Board {
         panel.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                int x1 = 420;
+                //display labelTest in Talon border
+                int x0 = 420;
+                int y0 = 20;
+                imageLabelTest.setBounds(x0, y0, width, height);
+
+                int x1 = 500;
                 int y1 = 20;
                 imageLabel.setBounds(x1, y1, width, height);
 

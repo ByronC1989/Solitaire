@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.*;
 
 public class Card {
@@ -14,14 +15,13 @@ public class Card {
         this.suit = suit;
         this.rank = rank;
         isFaceDown = true;
-
+        isRed = false;
         // determines if the card is red or black
         if (suit == Suit.HEARTS || suit == Suit.DIAMONDS) {
             this.isRed = true;
         }
-        this.frontOfCard = "src/Images/" + rank.displayRank() + "_of_" + suit.displaySuit() + ".png";
-        this.backOfCard = "src/Images/01_back.png";
-
+        this.frontOfCard = "Solitaire/src/Images/" + rank.displayRank() + "_of_" + suit.displaySuit() + ".png";
+        this.backOfCard = "Solitaire/src/Images/01_back.png";
     }
 
     public String getSuit() {
@@ -58,13 +58,25 @@ public class Card {
         return cardText;
     }
 
-    public String displayCard() {
-        // return filepath for cards.
+    public ImageIcon displayCard() {
+        // return filepath for cards, scaled, as an imageIcon
+        int width = 72;
+        int height = 90;
+        ImageIcon card;
         if (isFaceDown) {
-            return backOfCard;
+            //create ImageIcon with path to backOfCard
+            card = new ImageIcon(this.backOfCard);
+            Image img1 = card.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            card = new ImageIcon(img1);
         } else {
-            return frontOfCard;
+            //create ImageIcon with path to frontOfCard
+            card = new ImageIcon(this.frontOfCard);
+            Image img1 = card.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            card = new ImageIcon(img1);
         }
+        return card;
     }
+
+
 
 }
