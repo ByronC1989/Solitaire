@@ -102,9 +102,24 @@ class Board {
 
         // add correct card to empty tableau
         cardDemo = new Card(Rank.KING,Suit.SPADES);
+        cardDemo.flipCard();
         System.out.println("Attempting to add " + cardDemo + " to first empty tableau!");
         tableau.addCard(0,cardDemo);
+        tableau.printFirstTableau();
 
+        // add wrong colour card to tableau
+        cardDemo = new Card(Rank.QUEEN,Suit.SPADES);
+        cardDemo.flipCard();
+        System.out.println("Attempting to add " + cardDemo + " to tableau");
+        tableau.addCard(0,cardDemo);
+        tableau.printFirstTableau();
+
+        // add correct colour card to tableau
+        cardDemo = new Card(Rank.QUEEN,Suit.HEARTS);
+        cardDemo.flipCard();
+        System.out.println("Attempting to add " + cardDemo + " to tableau");
+        tableau.addCard(0,cardDemo);
+        tableau.printFirstTableau();
 
         //----------------------------------------------- DEMO --------------------------------------------
 

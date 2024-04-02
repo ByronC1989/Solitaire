@@ -110,9 +110,6 @@ public class Tableau {
     public void printFirstTableau() {
             System.out.println("Column " + (1) + ":");
             for (Card card : columns.getFirst()) {
-                if(!(card == null)){
-                    System.out.println("Tableau is empty");
-                }
                 System.out.println(card);
             }
     }
