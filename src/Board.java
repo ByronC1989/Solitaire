@@ -49,9 +49,7 @@ class Board {
         //----------------------------------------------- DEMO --------------------------------------------\
         /*
         * Add demo for:
-        *   Tableau cards can only be stacked in alternating colors
-            Spare tableau spots can only be filled with kings
-            Foundations can only be filled starting with an ace
+        * Foundations can only be filled starting with an ace
         * */
 
         Deck deck = new Deck();
@@ -63,7 +61,7 @@ class Board {
         deck.printDeck();
 
         // deck after shuffling -- deck can be shuffled demo
-        System.out.println("Deck After shuffling!\n");
+        System.out.println("Deck After shuffling!");
         deck.shuffleDeck();
         deck.printDeck();
 
@@ -71,7 +69,7 @@ class Board {
         tableau.initialize(deck);
 
         // show deck size is reduced after creating tableau
-        System.out.println("\n\nDeck contains: " + deck.deckSize() + " cards after drawing for tableau");
+        System.out.println("\nDeck contains: " + deck.deckSize() + " cards after drawing for tableau");
 
         System.out.println("\nPrinting tableau's with the correct number of cards per column\n");
         tableau.printTableau();
@@ -96,28 +94,28 @@ class Board {
         cardDemo.flipCard();
 
         // add wrong card to empty tableau
-        System.out.println("Attempting to add " + cardDemo + " to first empty tableau!");
+        System.out.println("\nAttempting to add " + cardDemo + " to first empty tableau!");
         tableau.addCard(0,cardDemo);
         tableau.printFirstTableau();
 
         // add correct card to empty tableau
         cardDemo = new Card(Rank.KING,Suit.SPADES);
         cardDemo.flipCard();
-        System.out.println("Attempting to add " + cardDemo + " to first empty tableau!");
+        System.out.println("\nAttempting to add " + cardDemo + " to first empty tableau!");
         tableau.addCard(0,cardDemo);
         tableau.printFirstTableau();
 
         // add wrong colour card to tableau
         cardDemo = new Card(Rank.QUEEN,Suit.SPADES);
         cardDemo.flipCard();
-        System.out.println("Attempting to add " + cardDemo + " to tableau");
+        System.out.println("\nAttempting to add " + cardDemo + " to tableau");
         tableau.addCard(0,cardDemo);
         tableau.printFirstTableau();
 
         // add correct colour card to tableau
         cardDemo = new Card(Rank.QUEEN,Suit.HEARTS);
         cardDemo.flipCard();
-        System.out.println("Attempting to add " + cardDemo + " to tableau");
+        System.out.println("\nAttempting to add " + cardDemo + " to tableau");
         tableau.addCard(0,cardDemo);
         tableau.printFirstTableau();
 
