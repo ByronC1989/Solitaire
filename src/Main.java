@@ -1,7 +1,7 @@
 public class Main {
         public static void main(String[] args) {
 
-                Card card = new Card(Rank.KING, Suit.SPADES);
+                Card card = new Card(Rank.FOUR, Suit.SPADES);
 //
 //                System.out.println(card.displayCard());
                 card.flipCard();

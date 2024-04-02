@@ -78,7 +78,7 @@ public class Tableau {
             column.add(card);
         }
         // if card is less then the card before it.
-        if(peekTopCard(columnIndex).getRank() - 1 == card.getRank()) {
+        if(peekTopCard(columnIndex) != null && peekTopCard(columnIndex).getRank() - 1 == card.getRank()) {
             // if the card is red only add a black card.
             if (peekTopCard(columnIndex) != null) {
                 if(peekTopCard(columnIndex).getIsRed()){
@@ -104,5 +104,16 @@ public class Tableau {
                 System.out.println(card);
             }
         }
+    }
+
+    // demo method
+    public void printFirstTableau() {
+            System.out.println("Column " + (1) + ":");
+            for (Card card : columns.getFirst()) {
+                if(!(card == null)){
+                    System.out.println("Tableau is empty");
+                }
+                System.out.println(card);
+            }
     }
 }

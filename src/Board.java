@@ -87,6 +87,25 @@ class Board {
         System.out.println(testCard + " was drawn from the deck!");
         System.out.println("Deck contains: " + deck.deckSize() + " cards after drawing a card!");
 
+        // Foundation demo
+        Foundation foundation = new Foundation();
+
+        // Tableau demo
+        tableau.removeCards(0,0);
+        Card cardDemo = new Card(Rank.FOUR,Suit.SPADES);
+        cardDemo.flipCard();
+
+        // add wrong card to empty tableau
+        System.out.println("Attempting to add " + cardDemo + " to first empty tableau!");
+        tableau.addCard(0,cardDemo);
+        tableau.printFirstTableau();
+
+        // add correct card to empty tableau
+        cardDemo = new Card(Rank.KING,Suit.SPADES);
+        System.out.println("Attempting to add " + cardDemo + " to first empty tableau!");
+        tableau.addCard(0,cardDemo);
+
+
         //----------------------------------------------- DEMO --------------------------------------------
 
         ImageIcon scaledIcon1 = new ImageIcon(img1);
