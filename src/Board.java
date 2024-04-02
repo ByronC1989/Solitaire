@@ -46,7 +46,7 @@ class Board {
         if (needBackOfCard) {
             backOfCard = new ImageIcon("src/Images/01_back.png");
         } else {
-            backOfCard = new ImageIcon("Solitaite/src/Images/01_back.png");
+            backOfCard = new ImageIcon("Solitaire/src/Images/01_back.png");
         }
 
         if (backOfCard != null) {
