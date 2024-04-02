@@ -31,7 +31,7 @@ public class Foundation {
         if (canPlace(card, suit)) {
             piles.get(suit.ordinal()).add(card); // Add the card to the corresponding pile
         } else {
-            throw new IllegalArgumentException("Cannot place card here"); // Throw an error if the move is not valid
+            System.out.println("Invalid move: " + card + " cannot be placed on pile " + (suit.ordinal() + 1));
         }
     }
 
