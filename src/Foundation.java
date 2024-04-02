@@ -44,4 +44,19 @@ public class Foundation {
         }
         return total;
     }
+
+    public void printFoundation() {
+        for (int i = 0; i < piles.size(); i++) {
+            List<Card> pile = piles.get(i);
+            System.out.println("Pile " + (i + 1) + ":");
+            if (pile.isEmpty()) {
+                System.out.println("  (empty)");
+            } else {
+                for (Card card : pile) {
+                    System.out.println("  " + card);
+                }
+            }
+        }
+    }
+
 }
