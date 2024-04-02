@@ -21,37 +21,38 @@ class RoundBorder extends AbstractBorder { // make the card slots rounded
         g2d.dispose();
     }
 
-}//end class RoundBorder
+}// end class RoundBorder
 
 class Board {
-    public static void main (String [] args){
+    public static void main(String[] args) {
         JFrame frame = new JFrame("Solitaire");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
-        JPanel panel = new JPanel(){
+        JPanel panel = new JPanel() {
             @Override
-            protected void paintComponent(Graphics g){
+            protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 g.setColor(new Color(29, 117, 36));
-                g.fillRect(0,0,getWidth(),getHeight());
+                g.fillRect(0, 0, getWidth(), getHeight());
             }
         };
-        panel.setPreferredSize(new Dimension(600,500));
+        panel.setPreferredSize(new Dimension(600, 500));
         JLabel label = new JLabel("Solitaire");
         panel.add(label);
 
-        ImageIcon backOfCard = new ImageIcon("src/Images/01_back.png");
-        //ImageIcon backOfCard = new ImageIcon("Solitaire/src/Images/01_back.png");
+        // ImageIcon backOfCard = new ImageIcon("src/Images/01_back.png");
+        ImageIcon backOfCard = new ImageIcon("Solitaire/src/Images/01_back.png");
 
         int width = 72;
         int height = 90;
         Image img1 = backOfCard.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
 
-        //----------------------------------------------- DEMO --------------------------------------------\
+        // ----------------------------------------------- DEMO
+        // --------------------------------------------\
         /*
-        * Add demo for:
-        * Foundations can only be filled starting with an ace
-        * */
+         * Add demo for:
+         * Foundations can only be filled starting with an ace
+         */
 
         Deck deck = new Deck();
 
@@ -77,9 +78,9 @@ class Board {
 
         // Card displays both suit and rank for correct card demo
 
-        //added testCard object to test displayCard and flipCard function
+        // added testCard object to test displayCard and flipCard function
         Card testCard = deck.drawCard();
-        testCard.flipCard(); //test flipCard -- comment out to show back of card in demo
+        testCard.flipCard(); // test flipCard -- comment out to show back of card in demo
         ImageIcon testIcon = testCard.displayCard();
 
         System.out.println("\n\nDrawing a card from the deck!");
@@ -90,37 +91,38 @@ class Board {
         Foundation foundation = new Foundation();
 
         // Tableau demo
-        tableau.removeCards(0,0);
-        Card cardDemo = new Card(Rank.FOUR,Suit.SPADES);
+        tableau.removeCards(0, 0);
+        Card cardDemo = new Card(Rank.FOUR, Suit.SPADES);
         cardDemo.flipCard();
 
         // add wrong card to empty tableau
         System.out.println("\nAttempting to add " + cardDemo + " to first empty tableau!");
-        tableau.addCard(0,cardDemo);
+        tableau.addCard(0, cardDemo);
         tableau.printFirstTableau();
 
         // add correct card to empty tableau
-        cardDemo = new Card(Rank.KING,Suit.SPADES);
+        cardDemo = new Card(Rank.KING, Suit.SPADES);
         cardDemo.flipCard();
         System.out.println("\nAttempting to add " + cardDemo + " to first empty tableau!");
-        tableau.addCard(0,cardDemo);
+        tableau.addCard(0, cardDemo);
         tableau.printFirstTableau();
 
         // add wrong colour card to tableau
-        cardDemo = new Card(Rank.QUEEN,Suit.SPADES);
+        cardDemo = new Card(Rank.QUEEN, Suit.SPADES);
         cardDemo.flipCard();
         System.out.println("\nAttempting to add " + cardDemo + " to tableau");
-        tableau.addCard(0,cardDemo);
+        tableau.addCard(0, cardDemo);
         tableau.printFirstTableau();
 
         // add correct colour card to tableau
-        cardDemo = new Card(Rank.QUEEN,Suit.HEARTS);
+        cardDemo = new Card(Rank.QUEEN, Suit.HEARTS);
         cardDemo.flipCard();
         System.out.println("\nAttempting to add " + cardDemo + " to tableau");
-        tableau.addCard(0,cardDemo);
+        tableau.addCard(0, cardDemo);
         tableau.printFirstTableau();
 
-        //----------------------------------------------- DEMO --------------------------------------------
+        // ----------------------------------------------- DEMO
+        // --------------------------------------------
 
         ImageIcon scaledIcon1 = new ImageIcon(img1);
 
@@ -134,12 +136,11 @@ class Board {
         JLabel pileLabel8 = new JLabel();
         JLabel pileLabel9 = new JLabel();
         JLabel pileLabel10 = new JLabel();
-        JLabel pileLabel11= new JLabel();
-        JLabel pileLabel12= new JLabel();
-        JLabel pileLabel13= new JLabel();
-        //create test card label
+        JLabel pileLabel11 = new JLabel();
+        JLabel pileLabel12 = new JLabel();
+        JLabel pileLabel13 = new JLabel();
+        // create test card label
         JLabel imageLabelTest = new JLabel(testIcon);
-
 
         int roundRadius = 10;
         pileLabel3.setBorder(new RoundBorder(roundRadius));
@@ -156,7 +157,7 @@ class Board {
         pileLabel13.setBorder(new RoundBorder(roundRadius));
 
         panel.setLayout(null);
-        //display test card on panel
+        // display test card on panel
         panel.add(imageLabelTest);
         panel.add(imageLabel);
         panel.add(pileLabel2);
@@ -174,7 +175,7 @@ class Board {
         panel.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                //display labelTest in Talon border
+                // display labelTest in Talon border
                 int x0 = 420;
                 int y0 = 20;
                 imageLabelTest.setBounds(x0, y0, width, height);

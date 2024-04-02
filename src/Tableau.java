@@ -74,20 +74,20 @@ public class Tableau {
     public void addCard(int columnIndex, Card card) {
         List<Card> column = getColumn(columnIndex);
         // if the tableau is empty and the card being added is a king add the card.
-        if(column.isEmpty() && card.getRank() == 13){
+        if (column.isEmpty() && card.getRank() == 13) {
             column.add(card);
         }
         // if card is less then the card before it.
-        if(peekTopCard(columnIndex) != null && peekTopCard(columnIndex).getRank() - 1 == card.getRank()) {
+        if (peekTopCard(columnIndex) != null && peekTopCard(columnIndex).getRank() - 1 == card.getRank()) {
             // if the card is red only add a black card.
             if (peekTopCard(columnIndex) != null) {
-                if(peekTopCard(columnIndex).getIsRed()){
-                    if(!card.getIsRed()){
+                if (peekTopCard(columnIndex).getIsRed()) {
+                    if (!card.getIsRed()) {
                         column.add(card);
                     }
                     // if the card is black only add a red card.
-                } else if(!peekTopCard(columnIndex).getIsRed()) {
-                    if(card.getIsRed()){
+                } else if (!peekTopCard(columnIndex).getIsRed()) {
+                    if (card.getIsRed()) {
                         column.add(card);
                     }
                 }
@@ -108,9 +108,9 @@ public class Tableau {
 
     // demo method some comments
     public void printFirstTableau() {
-            System.out.println("Column " + (1) + ":");
-            for (Card card : columns.getFirst()) {
-                System.out.println(card);
-            }
+        System.out.println("Column " + 1 + ":");
+        for (Card card : columns.get(0)) {
+            System.out.println(card);
+        }
     }
 }
