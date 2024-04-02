@@ -27,6 +27,7 @@ class Board {
     public static void main (String [] args){
         JFrame frame = new JFrame("Solitaire");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
         JPanel panel = new JPanel(){
             @Override
             protected void paintComponent(Graphics g){

@@ -106,7 +106,7 @@ public class Tableau {
         }
     }
 
-    // demo method
+    // demo method some comments
     public void printFirstTableau() {
             System.out.println("Column " + (1) + ":");
             for (Card card : columns.getFirst()) {
