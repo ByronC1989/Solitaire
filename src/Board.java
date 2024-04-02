@@ -1,7 +1,6 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.Graphics;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.border.AbstractBorder;
@@ -120,6 +119,31 @@ class Board {
         System.out.println("\nAttempting to add " + cardDemo + " to tableau");
         tableau.addCard(0, cardDemo);
         tableau.printFirstTableau();
+
+        // add ace card to foundation
+        Card aceCard = new Card(Rank.ACE, Suit.HEARTS);
+        aceCard.flipCard();
+        System.out.println("\nAttempting to add " + aceCard + " to foundation");
+
+        if (foundation.canPlace(aceCard, Suit.HEARTS)) {
+            System.out.println("Added Ace of Hearts to the foundation.");
+        } else {
+            System.out.println("Could not add Ace of Hearts to the foundation.");
+        }
+        foundation.place(aceCard, Suit.HEARTS);
+        foundation.printFoundation();
+
+        // add king card to foundation
+        Card kingCard = new Card(Rank.KING, Suit.HEARTS);
+        kingCard.flipCard();
+        System.out.println("\nAttempting to add " + kingCard + " to foundation");
+        if (foundation.canPlace(kingCard, Suit.HEARTS)) {
+            System.out.println("Added King of Hearts to the foundation");
+        } else {
+            System.out.println("Could not add King of Hearts to the foundation.");
+        }
+        foundation.place(kingCard, Suit.HEARTS);
+        foundation.printFoundation();
 
         // ----------------------------------------------- DEMO
         // --------------------------------------------
