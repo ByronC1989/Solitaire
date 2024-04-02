@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.Graphics;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.border.AbstractBorder;
@@ -39,14 +40,19 @@ class Board {
         JLabel label = new JLabel("Solitaire");
         panel.add(label);
 
-        // ImageIcon backOfCard = new ImageIcon("src/Images/01_back.png");
-        ImageIcon backOfCard = new ImageIcon("Solitaire/src/Images/01_back.png");
+        ImageIcon backOfCard = new ImageIcon("src/Images/01_back.png");
+        // ImageIcon backOfCard = new ImageIcon("Solitaire/src/Images/01_back.png");
 
         int width = 72;
         int height = 90;
         Image img1 = backOfCard.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
 
-        // ------------------- DEMO ---------------------- \\
+        // ----------------------------------------------- DEMO
+        // --------------------------------------------\
+        /*
+         * Add demo for:
+         * Foundations can only be filled starting with an ace
+         */
 
         Deck deck = new Deck();
 
@@ -54,12 +60,12 @@ class Board {
 
         // deck before shuffling -- deck can be shuffled demo.
         System.out.println("Deck before shuffling!\n");
-        deck.printDeck();
+        System.out.println(deck.printDeck());
 
         // deck after shuffling -- deck can be shuffled demo
         System.out.println("Deck After shuffling!");
         deck.shuffleDeck();
-        deck.printDeck();
+        System.out.println(deck.printDeck());
 
         Tableau tableau = new Tableau();
         tableau.initialize(deck);
@@ -74,7 +80,7 @@ class Board {
 
         // added testCard object to test displayCard and flipCard function
         Card testCard = deck.drawCard();
-        testCard.flipCard(); // test flipCard -- comment out to show back of card in demo
+        testCard.flipCard(); // test flipCard -- uncomment to show back of card in demo
         ImageIcon testIcon = testCard.displayCard();
 
         System.out.println("\n\nDrawing a card from the deck!");
@@ -139,8 +145,8 @@ class Board {
         }
         foundation.place(kingCard, Suit.HEARTS);
         foundation.printFoundation();
-
-        // ------------------- DEMO ---------------------- \\
+        // ----------------------------------------------- DEMO
+        // --------------------------------------------
 
         ImageIcon scaledIcon1 = new ImageIcon(img1);
 
