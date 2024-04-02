@@ -46,12 +46,7 @@ class Board {
         int height = 90;
         Image img1 = backOfCard.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
 
-        // ----------------------------------------------- DEMO
-        // --------------------------------------------\
-        /*
-         * Add demo for:
-         * Foundations can only be filled starting with an ace
-         */
+        // ------------------- DEMO ---------------------- \\
 
         Deck deck = new Deck();
 
@@ -145,8 +140,7 @@ class Board {
         foundation.place(kingCard, Suit.HEARTS);
         foundation.printFoundation();
 
-        // ----------------------------------------------- DEMO
-        // --------------------------------------------
+        // ------------------- DEMO ---------------------- \\
 
         ImageIcon scaledIcon1 = new ImageIcon(img1);
 
