@@ -1,33 +1,45 @@
 public class Main {
         public static void main(String[] args) {
 
-                Card card = new Card(Rank.FOUR, Suit.SPADES);
-//
-//                System.out.println(card.displayCard());
-                card.flipCard();
-//                System.out.println(card.displayCard());
-                System.out.println(card.getRank());
-
-                // flipping a card.
-                // System.out.println(card);
-                // card.flipCard();
-                // System.out.println(card);
-                // card.flipCard();
-                // System.out.println(card);
-
                 // Create deck of cards
                 Deck deck = new Deck();
+                Talon talon = new Talon();
                 Tableau tableau = new Tableau();
 
                 deck.shuffleDeck();
 
-                tableau.initialize(deck);
+                System.out.println("StockPile:");
+                System.out.println(deck.printDeck());
 
-                tableau.removeCards(0,0);
+                System.out.println("Talon:");
+                System.out.println(talon.printDeck());
 
-                tableau.addCard(0, card);
+                System.out.println("After moving Card to Talon from Stockpile");
+                deck.moveCardsToTalon(talon, 5);
 
-                tableau.printTableau();
+                System.out.println("StockPile:");
+                System.out.println(deck.printDeck());
+
+                System.out.println("Talon:");
+                System.out.println(talon.printDeck());
+
+                System.out.println("After moving Card to Stockpile from Talon");
+                talon.moveCardsToDeck(deck, 5);
+
+                System.out.println("StockPile:");
+                System.out.println(deck.printDeck());
+
+                System.out.println("Talon:");
+                System.out.println(talon.printDeck());
+
+
+//                tableau.initialize(deck);
+//
+//                tableau.removeCards(0,0);
+//
+//                tableau.addCard(0, card);
+//
+//                tableau.printTableau();
 
                 // System.out.println("Deck Before Shuffling: ");
                 // System.out.println(deck.printDeck());
