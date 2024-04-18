@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-public class Deck {
+public class Deck implements CardPile {
 
     private final ArrayList<Card> cards;
 
@@ -13,7 +13,7 @@ public class Deck {
         for (Suit suit : Suit.values()) {
             for (Rank rank : Rank.values()) {
                 Card card = new Card(rank, suit);
-                // card.flipCard(); // remove this after testing so that cards are facedown.
+                card.flipCard(); // remove this after testing so that cards are facedown.
                 cards.add(card);
             }
         }
@@ -48,7 +48,26 @@ public class Deck {
         return null;
     }
 
+    @Override
+    public Card topCard() {
+        return cards.get(0);
+    }
+
+    @Override
+    public void addCard(Card card) {
+        cards.add(0,card);
+    }
+
     public int deckSize() {
         return cards.size();
+    }
+
+    public void moveCardsToTalon(Talon talon, int numOfCards){
+        for(int i = 0; i < numOfCards; i++){
+            if(deckSize() > 0){
+                Card card = drawCard();
+                talon.addCard(card);
+            }
+        }
     }
 }
