@@ -19,7 +19,7 @@ public class Tableau {
                 Card card = deck.drawCard();
                 if (j == i) {
                     card.flipCard(); // Flip the last card in each column to face up (implement on swing to show the
-                                     // card face up)
+                                     // card face up
                 }
                 columns.get(i).add(card);
             }

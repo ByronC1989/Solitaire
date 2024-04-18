@@ -27,11 +27,19 @@ public class Foundation {
     }
 
     // Place a card on the correct suit pile if the move is valid.
+//    public void place(Card card, Suit suit) {
+//        if (canPlace(card, suit)) {
+//            piles.get(suit.ordinal()).add(card); // Add the card to the corresponding pile
+//        } else {
+//            throw new IllegalArgumentException("Cannot place card here"); // Throw an error if the move is not valid
+//        }
+//    }
+
     public void place(Card card, Suit suit) {
         if (canPlace(card, suit)) {
             piles.get(suit.ordinal()).add(card); // Add the card to the corresponding pile
         } else {
-            throw new IllegalArgumentException("Cannot place card here"); // Throw an error if the move is not valid
+            System.out.println("Invalid move: " + card + " cannot be placed on pile " + (suit.ordinal() + 1));
         }
     }
 
@@ -44,4 +52,19 @@ public class Foundation {
         }
         return total;
     }
+
+    public void printFoundation() {
+        for (int i = 0; i < piles.size(); i++) {
+            List<Card> pile = piles.get(i);
+            System.out.println("Pile " + (i + 1) + ":");
+            if (pile.isEmpty()) {
+                System.out.println("  (empty)");
+            } else {
+                for (Card card : pile) {
+                    System.out.println("  " + card);
+                }
+            }
+        }
+    }
+
 }
