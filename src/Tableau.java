@@ -109,7 +109,7 @@ public class Tableau {
     // demo method some comments
     public void printFirstTableau() {
             System.out.println("Column " + (1) + ":");
-            for (Card card : columns.getFirst()) {
+            for (Card card : columns.get(0)) {
                 System.out.println(card);
             }
     }

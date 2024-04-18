@@ -59,12 +59,12 @@ class Board {
 
         // deck before shuffling -- deck can be shuffled demo.
         System.out.println("Deck before shuffling!\n");
-        System.out.println(deck.printDeck());
+        deck.printDeck();
 
         // deck after shuffling -- deck can be shuffled demo
         System.out.println("Deck After shuffling!");
         deck.shuffleDeck();
-        System.out.println(deck.printDeck());
+        deck.printDeck();
 
         Tableau tableau = new Tableau();
         tableau.initialize(deck);
@@ -79,12 +79,15 @@ class Board {
 
         //added testCard object to test displayCard and flipCard function
         Card testCard = deck.drawCard();
-        testCard.flipCard(); //test flipCard -- uncomment to show back of card in demo
+        testCard.flipCard(); //test flipCard -- comment out to show back of card in demo
         ImageIcon testIcon = testCard.displayCard();
 
         System.out.println("\n\nDrawing a card from the deck!");
         System.out.println(testCard + " was drawn from the deck!");
         System.out.println("Deck contains: " + deck.deckSize() + " cards after drawing a card!");
+
+        // Foundation demo
+        Foundation foundation = new Foundation();
 
         // Tableau demo
         tableau.removeCards(0,0);
@@ -117,33 +120,6 @@ class Board {
         tableau.addCard(0,cardDemo);
         tableau.printFirstTableau();
 
-        // add ace card to foundation
-        // Foundation demo
-        Foundation foundation = new Foundation();
-
-        Card aceCard = new Card(Rank.ACE, Suit.HEARTS);
-        aceCard.flipCard();
-        System.out.println("\nAttempting to add " + aceCard + " to foundation");
-
-        if (foundation.canPlace(aceCard, Suit.HEARTS)) {
-            System.out.println("Added Ace of Hearts to the foundation.");
-        } else {
-            System.out.println("Could not add Ace of Hearts to the foundation.");
-        }
-        foundation.place(aceCard, Suit.HEARTS);
-        foundation.printFoundation();
-
-        // add king card to foundation
-        Card kingCard = new Card(Rank.KING, Suit.HEARTS);
-        kingCard.flipCard();
-        System.out.println("\nAttempting to add " + kingCard + " to foundation");
-        if (foundation.canPlace(kingCard, Suit.HEARTS)) {
-            System.out.println("Added King of Hearts to the foundation");
-        } else {
-            System.out.println("Could not add King of Hearts to the foundation.");
-        }
-        foundation.place(kingCard, Suit.HEARTS);
-        foundation.printFoundation();
         //----------------------------------------------- DEMO --------------------------------------------
 
         ImageIcon scaledIcon1 = new ImageIcon(img1);
