@@ -15,6 +15,7 @@ public class Deck implements CardPile {
                 Card card = new Card(rank, suit);
                 card.flipCard(); // remove this after testing so that cards are facedown.
                 cards.add(card);
+                Collections.shuffle(cards);
             }
         }
     }

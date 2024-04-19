@@ -1,9 +1,10 @@
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.Graphics;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.border.AbstractBorder;
 
 class RoundBorder extends AbstractBorder { // make the card slots rounded
@@ -24,7 +25,39 @@ class RoundBorder extends AbstractBorder { // make the card slots rounded
 }//end class RoundBorder
 
 class Board {
+    private ImageIcon talonIcon;
+    private JLabel talonImage = new JLabel();
+
+    //stateChange class to update talon/stockpile on click/////////////////////////////////////////
+    public void stateChange(JLabel imageLabel, Deck deck, Talon talon){
+
+        JLabel Timage = this.talonImage;
+        imageLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Card talonCard = null;
+                if (deck.deckSize() > 0) {
+                    deck.moveCardsToTalon(talon, 1);
+                    System.out.println(" PRESSED THE LABEL ");
+                    talonCard = talon.topCard();
+                    talonIcon = talonCard.displayCard();
+                    Timage.setIcon(talonIcon);
+                    System.out.println(" Bottom of mouse click ");
+                } else {
+                    talon.moveCardsToDeck(deck, talon.deckSize());
+                    Timage.setIcon(null);
+                }
+            }
+        });
+    }
+    /////////////////////////// end stateChange ///////////////////////////////////////////////////
+
     public static void main (String [] args){
+
+        Board board = new Board();
+        Deck deck = new Deck();
+        Talon talon = new Talon();
+
         JFrame frame = new JFrame("Solitaire");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
@@ -41,7 +74,7 @@ class Board {
         panel.add(label);
 
         ImageIcon backOfCard = new ImageIcon("src/Images/01_back.png");
-        //ImageIcon backOfCard = new ImageIcon("Solitaire/src/Images/01_back.png");
+        // ImageIcon backOfCard = new ImageIcon("Solitaire/src/Images/01_back.png");
 
         int width = 72;
         int height = 90;
@@ -53,78 +86,73 @@ class Board {
         * Foundations can only be filled starting with an ace
         * */
 
-        Deck deck = new Deck();
 
-        System.out.println("Deck contains: " + deck.deckSize() + " cards");
 
-        // deck before shuffling -- deck can be shuffled demo.
-        System.out.println("Deck before shuffling!\n");
-        deck.printDeck();
+//        System.out.println("Deck contains: " + deck.deckSize() + " cards");
+//
+//        // deck before shuffling -- deck can be shuffled demo.
+//        System.out.println("Deck before shuffling!\n");
+//        deck.printDeck();
+//
+//        // deck after shuffling -- deck can be shuffled demo
+//        System.out.println("Deck After shuffling!");
+//        deck.shuffleDeck();
+//        deck.printDeck();
+//
+//        Tableau tableau = new Tableau();
+//        tableau.initialize(deck);
+//
+//        // show deck size is reduced after creating tableau
+//        System.out.println("\nDeck contains: " + deck.deckSize() + " cards after drawing for tableau");
+//
+//        System.out.println("\nPrinting tableau's with the correct number of cards per column\n");
+//        tableau.printTableau();
+//
+//        System.out.println("\n\nDrawing a card from the deck!");
+//       // System.out.println(testCard + " was drawn from the deck!");
+//        System.out.println("Deck contains: " + deck.deckSize() + " cards after drawing a card!");
+//
+//        // Foundation demo
+//        Foundation foundation = new Foundation();
+//
+//        // Tableau demo
+//        tableau.removeCards(0,0);
+//        Card cardDemo = new Card(Rank.FOUR,Suit.SPADES);
+//        cardDemo.flipCard();
+//
+//        // add wrong card to empty tableau
+//        System.out.println("\nAttempting to add " + cardDemo + " to first empty tableau!");
+//        tableau.addCard(0,cardDemo);
+//        tableau.printFirstTableau();
+//
+//        // add correct card to empty tableau
+//        cardDemo = new Card(Rank.KING,Suit.SPADES);
+//        cardDemo.flipCard();
+//        System.out.println("\nAttempting to add " + cardDemo + " to first empty tableau!");
+//        tableau.addCard(0,cardDemo);
+//        tableau.printFirstTableau();
+//
+//        // add wrong colour card to tableau
+//        cardDemo = new Card(Rank.QUEEN,Suit.SPADES);
+//        cardDemo.flipCard();
+//        System.out.println("\nAttempting to add " + cardDemo + " to tableau");
+//        tableau.addCard(0,cardDemo);
+//        tableau.printFirstTableau();
+//
+//        // add correct colour card to tableau
+//        cardDemo = new Card(Rank.QUEEN,Suit.HEARTS);
+//        cardDemo.flipCard();
+//        System.out.println("\nAttempting to add " + cardDemo + " to tableau");
+//        tableau.addCard(0,cardDemo);
+//        tableau.printFirstTableau();
 
-        // deck after shuffling -- deck can be shuffled demo
-        System.out.println("Deck After shuffling!");
-        deck.shuffleDeck();
-        deck.printDeck();
+        //----------------------------------------------- END DEMO --------------------------------------------
 
-        Tableau tableau = new Tableau();
-        tableau.initialize(deck);
-
-        // show deck size is reduced after creating tableau
-        System.out.println("\nDeck contains: " + deck.deckSize() + " cards after drawing for tableau");
-
-        System.out.println("\nPrinting tableau's with the correct number of cards per column\n");
-        tableau.printTableau();
-
-        // Card displays both suit and rank for correct card demo
-
-        //added testCard object to test displayCard and flipCard function
-        Card testCard = deck.drawCard();
-        testCard.flipCard(); //test flipCard -- comment out to show back of card in demo
-        ImageIcon testIcon = testCard.displayCard();
-
-        System.out.println("\n\nDrawing a card from the deck!");
-        System.out.println(testCard + " was drawn from the deck!");
-        System.out.println("Deck contains: " + deck.deckSize() + " cards after drawing a card!");
-
-        // Foundation demo
-        Foundation foundation = new Foundation();
-
-        // Tableau demo
-        tableau.removeCards(0,0);
-        Card cardDemo = new Card(Rank.FOUR,Suit.SPADES);
-        cardDemo.flipCard();
-
-        // add wrong card to empty tableau
-        System.out.println("\nAttempting to add " + cardDemo + " to first empty tableau!");
-        tableau.addCard(0,cardDemo);
-        tableau.printFirstTableau();
-
-        // add correct card to empty tableau
-        cardDemo = new Card(Rank.KING,Suit.SPADES);
-        cardDemo.flipCard();
-        System.out.println("\nAttempting to add " + cardDemo + " to first empty tableau!");
-        tableau.addCard(0,cardDemo);
-        tableau.printFirstTableau();
-
-        // add wrong colour card to tableau
-        cardDemo = new Card(Rank.QUEEN,Suit.SPADES);
-        cardDemo.flipCard();
-        System.out.println("\nAttempting to add " + cardDemo + " to tableau");
-        tableau.addCard(0,cardDemo);
-        tableau.printFirstTableau();
-
-        // add correct colour card to tableau
-        cardDemo = new Card(Rank.QUEEN,Suit.HEARTS);
-        cardDemo.flipCard();
-        System.out.println("\nAttempting to add " + cardDemo + " to tableau");
-        tableau.addCard(0,cardDemo);
-        tableau.printFirstTableau();
-
-        //----------------------------------------------- DEMO --------------------------------------------
-
+        //stockpile imgIcon
         ImageIcon scaledIcon1 = new ImageIcon(img1);
-
+        //stockpile label
         JLabel imageLabel = new JLabel(scaledIcon1);
+        //border labels
         JLabel pileLabel2 = new JLabel();
         JLabel pileLabel3 = new JLabel();
         JLabel pileLabel4 = new JLabel();
@@ -137,9 +165,9 @@ class Board {
         JLabel pileLabel11= new JLabel();
         JLabel pileLabel12= new JLabel();
         JLabel pileLabel13= new JLabel();
-        //create test card label
-        JLabel imageLabelTest = new JLabel(testIcon);
 
+        //call statechange to use mouseListener
+        board.stateChange(imageLabel, deck, talon);
 
         int roundRadius = 10;
         pileLabel3.setBorder(new RoundBorder(roundRadius));
@@ -157,7 +185,7 @@ class Board {
 
         panel.setLayout(null);
         //display test card on panel
-        panel.add(imageLabelTest);
+        panel.add(board.talonImage);
         panel.add(imageLabel);
         panel.add(pileLabel2);
         panel.add(pileLabel3);
@@ -177,7 +205,7 @@ class Board {
                 //display labelTest in Talon border
                 int x0 = 420;
                 int y0 = 20;
-                imageLabelTest.setBounds(x0, y0, width, height);
+                board.talonImage.setBounds(x0, y0, width, height);
 
                 int x1 = 500;
                 int y1 = 20;
