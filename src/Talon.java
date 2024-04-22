@@ -32,6 +32,12 @@ public class Talon implements CardPile{
         cards.add(0,card);
     }
 
+    public void removeTopCard() {
+        if (!cards.isEmpty()) {
+            cards.remove(0);
+        }
+    }
+
     public void moveCardsToDeck(Deck deck, int numOfCards){
         for(int i = 0; i < numOfCards; i++){
             if(deckSize() > 0){

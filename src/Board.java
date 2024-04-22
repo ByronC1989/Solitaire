@@ -27,6 +27,11 @@ class RoundBorder extends AbstractBorder { // make the card slots rounded
 class Board {
     private ImageIcon talonIcon;
     private JLabel talonImage = new JLabel();
+    private JLabel[] foundationLabels = new JLabel[4];
+    private Foundation foundation;
+    public Board() {
+        foundation = new Foundation();
+    }
 
     //stateChange class to update talon/stockpile on click/////////////////////////////////////////
     public void stateChange(JLabel imageLabel, Deck deck, Talon talon){
@@ -38,19 +43,39 @@ class Board {
                 Card talonCard = null;
                 if (deck.deckSize() > 0) {
                     deck.moveCardsToTalon(talon, 1);
-                    //System.out.println(" PRESSED THE LABEL ");
+                    System.out.println(" PRESSED THE LABEL ");
                     talonCard = talon.topCard();
                     talonIcon = talonCard.displayCard();
                     Timage.setIcon(talonIcon);
-                    System.out.println("Cards Remaining: " + deck.deckSize());
-                    //System.out.println(" Bottom of mouse click ");
+                    System.out.println(" Bottom of mouse click ");
                 } else {
                     talon.moveCardsToDeck(deck, talon.deckSize());
                     Timage.setIcon(null);
                 }
+                if (talonCard != null) {
+                    if (talonCard.getRank() == Rank.ACE.getRank()) {
+                        // If the card is an Ace, automatically place it on the foundation
+                        for (Suit suit : Suit.values()) {
+                            if (foundation.canPlace(talonCard, suit)) {
+                                foundation.place(talonCard, suit);
+                                break;
+                            }
+                        }
+                    } else {
+                        // For non-Ace cards, check if they can be placed on the foundation
+                        for (Suit suit : Suit.values()) {
+                            if (foundation.canPlace(talonCard, suit)) {
+                                foundation.place(talonCard, suit);
+                                // If placed successfully, break the loop
+                                break;
+                            }
+                        }
+                    }
+                }
             }
         });
     }
+
     /////////////////////////// end stateChange ///////////////////////////////////////////////////
 
     public static void main (String [] args){

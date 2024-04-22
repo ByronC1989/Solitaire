@@ -11,7 +11,13 @@ public class Foundation {
             piles.add(new ArrayList<>()); // Create an empty list for each suit
         }
     }
-
+    public List<Card> getPile(int index) {
+        if (index >= 0 && index < piles.size()) {
+            return piles.get(index);
+        } else {
+            throw new IllegalArgumentException("Invalid index for foundation pile.");
+        }
+    }
     // Check if a card can be placed on a specific suit pile.
     // A card can be placed if it's an Ace (when the pile is empty) or one rank
     // higher than the top card of the same suit.
