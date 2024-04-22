@@ -16,14 +16,16 @@ public class Foundation {
     // A card can be placed if it's an Ace (when the pile is empty) or one rank
     // higher than the top card of the same suit.
     public boolean canPlace(Card card, Suit suit) {
-        List<Card> pile = piles.get(suit.ordinal()); // Get the pile corresponding to the suit
-        if (pile.isEmpty()) {
-            return card.getRank() == 1; // Check if the card is an Ace
-        } else {
-            Card topCard = pile.get(pile.size() - 1); // Get the top card of the pile
-            // Check if the card is the next rank in the same suit
-            return card.getSuit().equals(suit) && card.getRank() == topCard.getRank() + 1;
+        int index = suit.ordinal();
+        List<Card> pile = piles.get(index);
+        if (pile.isEmpty() && card.getRank() == Rank.ACE.getRank()) {
+            return true; // Allow Ace on an empty pile
+        } else if (!pile.isEmpty()) {
+            Card topCard = pile.get(pile.size() - 1);
+            // Check if the card is the next rank up and the same suit
+            return card.getSuit() == topCard.getSuit() && card.getRank() == topCard.getRank() + 1;
         }
+        return false;
     }
 
     // Place a card on the correct suit pile if the move is valid.
@@ -37,7 +39,8 @@ public class Foundation {
 
     public void place(Card card, Suit suit) {
         if (canPlace(card, suit)) {
-            piles.get(suit.ordinal()).add(card); // Add the card to the corresponding pile
+            piles.get(suit.ordinal()).add(card);
+            System.out.println("Placed " + card + " on pile " + (suit.ordinal() + 1));
         } else {
             System.out.println("Invalid move: " + card + " cannot be placed on pile " + (suit.ordinal() + 1));
         }

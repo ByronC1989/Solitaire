@@ -38,11 +38,12 @@ class Board {
                 Card talonCard = null;
                 if (deck.deckSize() > 0) {
                     deck.moveCardsToTalon(talon, 1);
-                    System.out.println(" PRESSED THE LABEL ");
+                    //System.out.println(" PRESSED THE LABEL ");
                     talonCard = talon.topCard();
                     talonIcon = talonCard.displayCard();
                     Timage.setIcon(talonIcon);
-                    System.out.println(" Bottom of mouse click ");
+                    System.out.println("Cards Remaining: " + deck.deckSize());
+                    //System.out.println(" Bottom of mouse click ");
                 } else {
                     talon.moveCardsToDeck(deck, talon.deckSize());
                     Timage.setIcon(null);
@@ -57,6 +58,8 @@ class Board {
         Board board = new Board();
         Deck deck = new Deck();
         Talon talon = new Talon();
+        Tableau tableau = new Tableau();
+        tableau.initialize(deck);
 
         JFrame frame = new JFrame("Solitaire");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
