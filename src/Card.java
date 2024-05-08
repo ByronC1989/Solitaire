@@ -11,6 +11,15 @@ public class Card {
     private boolean isFaceDown;
     private boolean isRed;
 
+    public Card(){ // only using this to displayCard()
+        this.suit = null;
+        this.rank = null;
+        this.frontOfCard = "";
+        //this.backOfCard = "Solitaire/src/Images/01_back.png";
+        this.backOfCard = "src/Images/01_back.png";
+        this.isFaceDown = true; // default face down
+    }
+
     public Card(Rank rank, Suit suit) {
         this.suit = suit;
         this.rank = rank;
