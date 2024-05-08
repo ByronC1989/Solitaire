@@ -35,7 +35,7 @@ class Board extends JFrame implements ActionListener {
     private  JMenuItem exitItem;
     private JMenu gameMenu;
     public Board() {
-
+        // title
         this.setTitle("Solitaire");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
