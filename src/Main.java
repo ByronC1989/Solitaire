@@ -121,7 +121,73 @@ public class Main {
                 foundation.place(fiveOfH, Suit.HEARTS);
                 foundation.printFoundation();
 
+                //----------------------------------------------- DEMO --------------------------------------------\
+                /*
+                 * Add demo for:
+                 * Foundations can only be filled starting with an ace
+                 * */
 
+
+
+//        System.out.println("Deck contains: " + deck.deckSize() + " cards");
+//
+//        // deck before shuffling -- deck can be shuffled demo.
+//        System.out.println("Deck before shuffling!\n");
+//        deck.printDeck();
+//
+//        // deck after shuffling -- deck can be shuffled demo
+//        System.out.println("Deck After shuffling!");
+//        deck.shuffleDeck();
+//        deck.printDeck();
+//
+//        Tableau tableau = new Tableau();
+//        tableau.initialize(deck);
+//
+//        // show deck size is reduced after creating tableau
+//        System.out.println("\nDeck contains: " + deck.deckSize() + " cards after drawing for tableau");
+//
+//        System.out.println("\nPrinting tableau's with the correct number of cards per column\n");
+//        tableau.printTableau();
+//
+//        System.out.println("\n\nDrawing a card from the deck!");
+//       // System.out.println(testCard + " was drawn from the deck!");
+//        System.out.println("Deck contains: " + deck.deckSize() + " cards after drawing a card!");
+//
+//        // Foundation demo
+//        Foundation foundation = new Foundation();
+//
+//        // Tableau demo
+//        tableau.removeCards(0,0);
+//        Card cardDemo = new Card(Rank.FOUR,Suit.SPADES);
+//        cardDemo.flipCard();
+//
+//        // add wrong card to empty tableau
+//        System.out.println("\nAttempting to add " + cardDemo + " to first empty tableau!");
+//        tableau.addCard(0,cardDemo);
+//        tableau.printFirstTableau();
+//
+//        // add correct card to empty tableau
+//        cardDemo = new Card(Rank.KING,Suit.SPADES);
+//        cardDemo.flipCard();
+//        System.out.println("\nAttempting to add " + cardDemo + " to first empty tableau!");
+//        tableau.addCard(0,cardDemo);
+//        tableau.printFirstTableau();
+//
+//        // add wrong colour card to tableau
+//        cardDemo = new Card(Rank.QUEEN,Suit.SPADES);
+//        cardDemo.flipCard();
+//        System.out.println("\nAttempting to add " + cardDemo + " to tableau");
+//        tableau.addCard(0,cardDemo);
+//        tableau.printFirstTableau();
+//
+//        // add correct colour card to tableau
+//        cardDemo = new Card(Rank.QUEEN,Suit.HEARTS);
+//        cardDemo.flipCard();
+//        System.out.println("\nAttempting to add " + cardDemo + " to tableau");
+//        tableau.addCard(0,cardDemo);
+//        tableau.printFirstTableau();
+
+                //----------------------------------------------- END DEMO --------------------------------------------
 
         }
 }

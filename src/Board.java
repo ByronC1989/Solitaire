@@ -7,7 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.border.AbstractBorder;
 
-class RoundBorder extends AbstractBorder { // make the card slots rounded
+class RoundBorder extends AbstractBorder {
     private int radius;
 
     public RoundBorder(int radius) {
@@ -32,7 +32,17 @@ class Board {
     public Board() {
         foundation = new Foundation();
     }
-
+    private void updateFoundationGUI(Suit suit) {
+        int pileIndex = suit.ordinal();
+        java.util.List<Card> pile = foundation.getPile(pileIndex);
+        if (!pile.isEmpty()) {
+            Card topCard = pile.get(pile.size() - 1);
+            ImageIcon cardIcon = topCard.displayCard();
+            foundationLabels[pileIndex].setIcon(cardIcon);
+        } else {
+            foundationLabels[pileIndex].setIcon(null);
+        }
+    }
     //stateChange class to update talon/stockpile on click/////////////////////////////////////////
     public void stateChange(JLabel imageLabel, Deck deck, Talon talon){
 
@@ -66,7 +76,6 @@ class Board {
                         for (Suit suit : Suit.values()) {
                             if (foundation.canPlace(talonCard, suit)) {
                                 foundation.place(talonCard, suit);
-                                // If placed successfully, break the loop
                                 break;
                             }
                         }
@@ -75,7 +84,53 @@ class Board {
             }
         });
     }
+    public void enableDragAndDrop(JLabel talonImage, Talon talon, JLabel[] foundationLabels, JPanel panel) {
+        talonImage.addMouseListener(new MouseAdapter() {
+            private int offsetX, offsetY;
+            private int droppedPileIndex = -1;
 
+            @Override
+            public void mousePressed(MouseEvent e) {
+                offsetX = e.getX();
+                offsetY = e.getY();
+                System.out.println("Mouse clicked");
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                int x = e.getXOnScreen() - offsetX - panel.getLocationOnScreen().x;
+                int y = e.getYOnScreen() - offsetY - panel.getLocationOnScreen().y;
+                System.out.println("Mouse Released");
+
+                for (int i = 0; i < foundationLabels.length; i++) {
+                    if (foundationLabels[i].getBounds().contains(x, y)) {
+                        Card draggedCard = talon.topCard();
+                        if (draggedCard != null) {
+                            if (foundation.canPlace(draggedCard, Suit.values()[i])) {
+                                foundation.place(draggedCard, Suit.values()[i]);
+                                updateFoundationGUI(Suit.values()[i]);
+                                talon.removeTopCard();
+                                droppedPileIndex = i;
+                                if (droppedPileIndex != -1) {
+                                    JOptionPane.showMessageDialog(panel, "Card dropped onto " + Suit.values()[droppedPileIndex] + " foundation pile.", "Notification", JOptionPane.INFORMATION_MESSAGE);
+                                }
+                            } else {
+                                System.out.println("Invalid move: Cannot place card on this foundation pile.");
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                int x = e.getXOnScreen() - offsetX;
+                int y = e.getYOnScreen() - offsetY;
+                talonImage.setLocation(x, y);
+            }
+        });
+    }
     /////////////////////////// end stateChange ///////////////////////////////////////////////////
 
     public static void main (String [] args){
@@ -102,79 +157,15 @@ class Board {
         panel.add(label);
 
         ImageIcon backOfCard = new ImageIcon("src/Images/01_back.png");
-        // ImageIcon backOfCard = new ImageIcon("Solitaire/src/Images/01_back.png");
 
         int width = 72;
         int height = 90;
         Image img1 = backOfCard.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
 
-        //----------------------------------------------- DEMO --------------------------------------------\
-        /*
-        * Add demo for:
-        * Foundations can only be filled starting with an ace
-        * */
-
-
-
-//        System.out.println("Deck contains: " + deck.deckSize() + " cards");
-//
-//        // deck before shuffling -- deck can be shuffled demo.
-//        System.out.println("Deck before shuffling!\n");
-//        deck.printDeck();
-//
-//        // deck after shuffling -- deck can be shuffled demo
-//        System.out.println("Deck After shuffling!");
-//        deck.shuffleDeck();
-//        deck.printDeck();
-//
-//        Tableau tableau = new Tableau();
-//        tableau.initialize(deck);
-//
-//        // show deck size is reduced after creating tableau
-//        System.out.println("\nDeck contains: " + deck.deckSize() + " cards after drawing for tableau");
-//
-//        System.out.println("\nPrinting tableau's with the correct number of cards per column\n");
-//        tableau.printTableau();
-//
-//        System.out.println("\n\nDrawing a card from the deck!");
-//       // System.out.println(testCard + " was drawn from the deck!");
-//        System.out.println("Deck contains: " + deck.deckSize() + " cards after drawing a card!");
-//
-//        // Foundation demo
-//        Foundation foundation = new Foundation();
-//
-//        // Tableau demo
-//        tableau.removeCards(0,0);
-//        Card cardDemo = new Card(Rank.FOUR,Suit.SPADES);
-//        cardDemo.flipCard();
-//
-//        // add wrong card to empty tableau
-//        System.out.println("\nAttempting to add " + cardDemo + " to first empty tableau!");
-//        tableau.addCard(0,cardDemo);
-//        tableau.printFirstTableau();
-//
-//        // add correct card to empty tableau
-//        cardDemo = new Card(Rank.KING,Suit.SPADES);
-//        cardDemo.flipCard();
-//        System.out.println("\nAttempting to add " + cardDemo + " to first empty tableau!");
-//        tableau.addCard(0,cardDemo);
-//        tableau.printFirstTableau();
-//
-//        // add wrong colour card to tableau
-//        cardDemo = new Card(Rank.QUEEN,Suit.SPADES);
-//        cardDemo.flipCard();
-//        System.out.println("\nAttempting to add " + cardDemo + " to tableau");
-//        tableau.addCard(0,cardDemo);
-//        tableau.printFirstTableau();
-//
-//        // add correct colour card to tableau
-//        cardDemo = new Card(Rank.QUEEN,Suit.HEARTS);
-//        cardDemo.flipCard();
-//        System.out.println("\nAttempting to add " + cardDemo + " to tableau");
-//        tableau.addCard(0,cardDemo);
-//        tableau.printFirstTableau();
-
-        //----------------------------------------------- END DEMO --------------------------------------------
+        for (int i = 0; i < 4; i++) {
+            board.foundationLabels[i] = new JLabel();
+            panel.add(board.foundationLabels[i]);
+        }
 
         //stockpile imgIcon
         ImageIcon scaledIcon1 = new ImageIcon(img1);
@@ -182,10 +173,10 @@ class Board {
         JLabel imageLabel = new JLabel(scaledIcon1);
         //border labels
         JLabel pileLabel2 = new JLabel();
-        JLabel pileLabel3 = new JLabel();
-        JLabel pileLabel4 = new JLabel();
-        JLabel pileLabel5 = new JLabel();
-        JLabel pileLabel6 = new JLabel();
+        JLabel FoundationPile1 = new JLabel();
+        JLabel FoundationPile2 = new JLabel();
+        JLabel FoundationPile3 = new JLabel();
+        JLabel FoundationPile4 = new JLabel();
         JLabel pileLabel7 = new JLabel();
         JLabel pileLabel8 = new JLabel();
         JLabel pileLabel9 = new JLabel();
@@ -198,11 +189,11 @@ class Board {
         board.stateChange(imageLabel, deck, talon);
 
         int roundRadius = 10;
-        pileLabel3.setBorder(new RoundBorder(roundRadius));
+        FoundationPile1.setBorder(new RoundBorder(roundRadius));
+        FoundationPile2.setBorder(new RoundBorder(roundRadius));
+        FoundationPile3.setBorder(new RoundBorder(roundRadius));
+        FoundationPile4.setBorder(new RoundBorder(roundRadius));
         pileLabel2.setBorder(new RoundBorder(roundRadius));
-        pileLabel4.setBorder(new RoundBorder(roundRadius));
-        pileLabel5.setBorder(new RoundBorder(roundRadius));
-        pileLabel6.setBorder(new RoundBorder(roundRadius));
         pileLabel7.setBorder(new RoundBorder(roundRadius));
         pileLabel8.setBorder(new RoundBorder(roundRadius));
         pileLabel9.setBorder(new RoundBorder(roundRadius));
@@ -216,10 +207,10 @@ class Board {
         panel.add(board.talonImage);
         panel.add(imageLabel);
         panel.add(pileLabel2);
-        panel.add(pileLabel3);
-        panel.add(pileLabel4);
-        panel.add(pileLabel5);
-        panel.add(pileLabel6);
+        panel.add(FoundationPile1);
+        panel.add(FoundationPile2);
+        panel.add(FoundationPile3);
+        panel.add(FoundationPile4);
         panel.add(pileLabel7);
         panel.add(pileLabel8);
         panel.add(pileLabel9);
@@ -235,6 +226,7 @@ class Board {
                 int y0 = 20;
                 board.talonImage.setBounds(x0, y0, width, height);
 
+                //stock pile
                 int x1 = 500;
                 int y1 = 20;
                 imageLabel.setBounds(x1, y1, width, height);
@@ -243,21 +235,24 @@ class Board {
                 int y2 = 20;
                 pileLabel2.setBounds(x2, y2, width, height);
 
+                //foundation piles
                 int x3 = 20;
                 int y3 = 20;
-                pileLabel3.setBounds(x3, y3, width, height);
+                FoundationPile1.setBounds(x3, y3, width, height);
 
                 int x4 = 100;
                 int y4 = 20;
-                pileLabel4.setBounds(x4, y4, width, height);
+                FoundationPile2.setBounds(x4, y4, width, height);
 
                 int x5 = 180;
                 int y5 = 20;
-                pileLabel5.setBounds(x5, y5, width, height);
+                FoundationPile3.setBounds(x5, y5, width, height);
 
                 int x6 = 260;
                 int y6 = 20;
-                pileLabel6.setBounds(x6, y6, width, height);
+                FoundationPile4.setBounds(x6, y6, width, height);
+
+
 
                 int x7 = 20;
                 int y7 = 150;
@@ -293,5 +288,7 @@ class Board {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+
+        board.enableDragAndDrop(board.talonImage, talon, board.foundationLabels, panel);
     }
 }
