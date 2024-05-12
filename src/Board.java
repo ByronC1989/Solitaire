@@ -65,7 +65,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
     private final JLabel[] tableauLabels = new JLabel[7];
     private JMenuBar menuBar;
     private JMenuItem gameItem;
-    private  JMenuItem exitItem;
+    private JMenuItem exitItem;
     private JMenu gameMenu;
     JLabel Timage = this.talonLabel;
 
@@ -75,16 +75,19 @@ class Board extends JFrame implements ActionListener, MouseListener {
     private final JPanel tracker;
 
     private GameEngine game;
-
+    private Stopwatch stopwatch;
 
     public Board(GameEngine game) {
         this.game = game;
+        stopwatch = new Stopwatch();
+        stopwatch.setBounds(420, 250, 160, 25);
+        this.add(stopwatch);
 
         // create Frame
         this.setTitle("Solitaire");         // title
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
-        this.setSize(600,500); // Frame Size -- maybe expand height
+        this.setSize(600, 500); // Frame Size -- maybe expand height
         this.setLayout(null);
         this.getContentPane()
                 .setBackground(new Color(29, 117, 36)); // background colour
@@ -112,69 +115,80 @@ class Board extends JFrame implements ActionListener, MouseListener {
     }
 
     public void setup() {
+        initializeTracker();
+        initializeDeckPanel();
+        initializeFoundationPanel();
+        initializeTableauPanel();
+        this.setVisible(true);
+    }
+
+    private void initializeTracker() {
         tracker.setBounds(420, 116, 160, 25);
         text.setText("Cards Remaining: ");
         text.setForeground(Color.white);
         tracker.setBackground(new Color(29, 117, 36));
         tracker.add(text);
         this.add(tracker);
+    }
 
+    private void initializeDeckPanel() {
         deckPanel.setBackground(new Color(29, 117, 36));
-        deckPanel.setBounds(420,20,160, 94);
+        deckPanel.setBounds(420, 20, 160, 94);
         deckPanel.setLayout(null);
 
-        stockpileLabel.setBounds(80, 2, width, height); // draw stockpile
-        talonLabel.setBounds(5, 2, width, height); // draw talon pile
-
-        talonLabel.addMouseListener(this); // add mouse events
+        stockpileLabel.setBounds(80, 2, width, height);
+        talonLabel.setBounds(5, 2, width, height);
+        talonLabel.addMouseListener(this);
 
         deckPanel.add(stockpileLabel);
         deckPanel.add(talonLabel);
-        this.add(deckPanel); // end of decks panel
+        this.add(deckPanel);
+    }
 
+    private void initializeFoundationPanel() {
         foundationPanel.setBackground(new Color(29, 117, 36));
-        foundationPanel.setBounds(10,20,320, 94);
+        foundationPanel.setBounds(10, 20, 320, 94);
         foundationPanel.setLayout(null);
 
-        fSpade.setBounds(5, 2, width, height); // draw stockpile
-        fHeart.setBounds(82, 2, width, height); // draw stockpile
-        fClub.setBounds(159, 2, width, height); // draw stockpile
-        fDiamond.setBounds(236, 2, width, height); // draw stockpile
+        fSpade.setBounds(5, 2, width, height);
+        fHeart.setBounds(82, 2, width, height);
+        fClub.setBounds(159, 2, width, height);
+        fDiamond.setBounds(236, 2, width, height);
 
-        fHeart.setIcon(createGreyedOutImage(fHeart.getIcon())); // grey out
+        fHeart.setIcon(createGreyedOutImage(fHeart.getIcon()));
         fDiamond.setIcon(createGreyedOutImage(fDiamond.getIcon()));
         fClub.setIcon(createGreyedOutImage(fClub.getIcon()));
         fSpade.setIcon(createGreyedOutImage(fSpade.getIcon()));
 
-        fHeart.addMouseListener(this); // add mouse events
-        fDiamond.addMouseListener(this); // add mouse events
-        fClub.addMouseListener(this); // add mouse events
-        fSpade.addMouseListener(this); // add mouse events
+        fHeart.addMouseListener(this);
+        fDiamond.addMouseListener(this);
+        fClub.addMouseListener(this);
+        fSpade.addMouseListener(this);
 
         foundationPanel.add(fDiamond);
         foundationPanel.add(fHeart);
         foundationPanel.add(fClub);
         foundationPanel.add(fSpade);
         this.add(foundationPanel);
-
-        int x = 5;
-        tableauPanel.setBackground(new Color(29, 117, 36));
-        tableauPanel.setBounds(10,150,560, 94);
-        tableauPanel.setLayout(null);
-        for(int i = 0; i < 7; i++) {
-            tableauLabels[i] = new JLabel();
-            tableauLabels[i].setBorder(new RoundBorder(10));
-            tableauLabels[i].setBounds(x,2, width, height);
-            tableauLabels[i].addMouseListener(this);
-            tableauPanel.add(tableauLabels[i]);
-            x+= 80;
-        }
-        this.add(tableauPanel);
-
-        this.setVisible(true);
     }
 
-    public void removePanels () {
+    private void initializeTableauPanel() {
+        tableauPanel.setBackground(new Color(29, 117, 36));
+        tableauPanel.setBounds(10, 150, 560, 94);
+        tableauPanel.setLayout(null);
+        int x = 5;
+        for (int i = 0; i < 7; i++) {
+            tableauLabels[i] = new JLabel();
+            tableauLabels[i].setBorder(new RoundBorder(10));
+            tableauLabels[i].setBounds(x, 2, width, height);
+            tableauLabels[i].addMouseListener(this);
+            tableauPanel.add(tableauLabels[i]);
+            x += 80;
+        }
+        this.add(tableauPanel);
+    }
+
+    public void removePanels() {
         this.remove(tableauPanel);
         this.remove(foundationPanel);
         this.remove(deckPanel);
@@ -184,19 +198,22 @@ class Board extends JFrame implements ActionListener, MouseListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         // control menu
-        if(e.getSource()==gameItem) {
+        if (e.getSource() == gameItem) {
             // needs some kind of update
-           System.out.println("new game");
-           removePanels();
-           setup();
-        } else {
+            System.out.println("new game");
+            removePanels();
+            setup();
+            stopwatch.reset();
+            stopwatch.start();
+        } else if (e.getSource() == exitItem) {
             System.exit(0);
+            stopwatch.stop();
         }
 
     }
 
     //stateChange class to update talon/stockpile on click/////////////////////////////////////////
-    public void drawDeck(){
+    public void drawDeck() {
         stockpileLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -207,7 +224,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
                     talonIcon = talonCard.displayCard();
                     Timage.setIcon(talonIcon);
                     text.setText("Cards Remaining: " + game.getDeck().deckSize());
-                    if (game.getDeck().deckSize() == 0){
+                    if (game.getDeck().deckSize() == 0) {
                         stockpileLabel.setIcon(createGreyedOutImage(
                                 stockpileLabel.getIcon()));
                     }
@@ -247,19 +264,19 @@ class Board extends JFrame implements ActionListener, MouseListener {
 
         srcPile = e.getComponent(); // gets the component of what was clicked on.
 
-        if(srcPile==talonLabel){
+        if (srcPile == talonLabel) {
             System.out.println("Pressed on: Talon Pile");
-        } else if (srcPile==fHeart) {
+        } else if (srcPile == fHeart) {
             System.out.println("Pressed on: Hearts Foundation");
-        } else if (srcPile==fDiamond) {
+        } else if (srcPile == fDiamond) {
             System.out.println("Pressed on: Diamonds Foundation");
-        } else if (srcPile==fClub) {
+        } else if (srcPile == fClub) {
             System.out.println("Pressed on: Clubs Foundation");
-        } else if (srcPile==fSpade) {
+        } else if (srcPile == fSpade) {
             System.out.println("Pressed on: Spades Foundation");
-        } else if (srcPile==tableauLabels[0]) {
+        } else if (srcPile == tableauLabels[0]) {
             System.out.println("Pressed on: Tableau 01");
-        }else {
+        } else {
             System.out.println("Something went wrong: Pressed");
         }
 
@@ -268,20 +285,23 @@ class Board extends JFrame implements ActionListener, MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
 
-        if(destPile==talonLabel){
+        if (destPile == talonLabel) {
             System.out.println("Released on: Talon Pile");
-        } else if (destPile==fHeart) {
+        } else if (destPile == fHeart) {
             System.out.println("Released on: Hearts Foundation");
-        } else if (destPile==fDiamond) {
+        } else if (destPile == fDiamond) {
             System.out.println("Released on: Diamonds Foundation");
-        } else if (destPile==fClub) {
+        } else if (destPile == fClub) {
             System.out.println("Released on: Clubs Foundation");
-        } else if (destPile==fSpade) {
+        } else if (destPile == fSpade) {
             System.out.println("Released on: Spades Foundation");
         } else {
             System.out.println("Something went wrong: Released");
         }
+        if (!stopwatch.isRunning()) {
+            stopwatch.start();
 
+        }
     }
 
     @Override
@@ -294,5 +314,16 @@ class Board extends JFrame implements ActionListener, MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    public void gameEnd(boolean playerWon) {
+        stopwatch.stop();
+
+        if (playerWon) {
+            JOptionPane.showMessageDialog(this, "Congratulations! You won!");
+        } else {
+            JOptionPane.showMessageDialog(this, "Game over. You lost.");
+        }
+        stopwatch.stop();
     }
 }
