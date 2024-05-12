@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Graphics;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import javax.swing.border.AbstractBorder;
@@ -19,7 +20,7 @@ class RoundBorder extends AbstractBorder { // make the card slots rounded
         g2d.dispose();
     }
 
-}// end class RoundBorder
+}//end class RoundBorder
 
 class Board extends JFrame implements ActionListener, MouseListener {
 
@@ -31,32 +32,32 @@ class Board extends JFrame implements ActionListener, MouseListener {
     // ImageIcon cardBack = new ImageIcon("Solitaire/src/Images/01_back.png");
     private final Image backOfCard = cardBack.getImage()
             .getScaledInstance(width, height, Image.SCALE_SMOOTH);
-    private final ImageIcon backScaled = new ImageIcon(backOfCard); // stockpile imgIcon
+    private final ImageIcon backScaled = new ImageIcon(backOfCard); //stockpile imgIcon
     private final ImageIcon aceSpade = new ImageIcon("src/Images/ace_of_spades.png");
     private final Image aceSpadeUpdate = aceSpade.getImage()
             .getScaledInstance(width, height, Image.SCALE_SMOOTH);
-    private final ImageIcon aceSpadeScaled = new ImageIcon(aceSpadeUpdate); // stockpile imgIcon
+    private final ImageIcon aceSpadeScaled = new ImageIcon(aceSpadeUpdate); //stockpile imgIcon
     private final ImageIcon aceHeart = new ImageIcon("src/Images/ace_of_hearts.png");
     private final Image aceHeartUpdate = aceHeart.getImage()
             .getScaledInstance(width, height, Image.SCALE_SMOOTH);
-    private final ImageIcon aceHeartScaled = new ImageIcon(aceHeartUpdate); // stockpile imgIcon
+    private final ImageIcon aceHeartScaled = new ImageIcon(aceHeartUpdate); //stockpile imgIcon
     private final ImageIcon aceDiamonds = new ImageIcon("src/Images/ace_of_diamonds.png");
     private final Image aceDiamondsUpdate = aceDiamonds.getImage()
             .getScaledInstance(width, height, Image.SCALE_SMOOTH);
-    private final ImageIcon aceDiamondsScaled = new ImageIcon(aceDiamondsUpdate); // stockpile imgIcon
+    private final ImageIcon aceDiamondsScaled = new ImageIcon(aceDiamondsUpdate); //stockpile imgIcon
 
     private final ImageIcon aceClubs = new ImageIcon("src/Images/ace_of_clubs.png");
     private final Image aceClubsUpdate = aceClubs.getImage()
             .getScaledInstance(width, height, Image.SCALE_SMOOTH);
-    private final ImageIcon aceClubsScaled = new ImageIcon(aceClubsUpdate); // stockpile imgIcon
+    private final ImageIcon aceClubsScaled = new ImageIcon(aceClubsUpdate); //stockpile imgIcon
 
     private ImageIcon talonIcon;
 
     // Labels
-    JLabel stockpileLabel = new JLabel(backScaled); // stockpile label
+    JLabel stockpileLabel = new JLabel(backScaled); //stockpile label
     private JLabel talonLabel = new JLabel();
     private JLabel fDiamond = new JLabel(aceDiamondsScaled); // diamond foundation label
-    private JLabel fHeart = new JLabel(aceHeartScaled); // heart foundation label
+    private JLabel fHeart = new JLabel(aceHeartScaled);  // heart foundation label
     private JLabel fClub = new JLabel(aceClubsScaled); // club foundation label
     private JLabel fSpade = new JLabel(aceSpadeScaled); // spade foundation label
     JLabel text = new JLabel();
@@ -74,19 +75,23 @@ class Board extends JFrame implements ActionListener, MouseListener {
     private final JPanel tracker;
 
     private GameEngine game;
+    private Stopwatch stopwatch;
 
     public Board(GameEngine game) {
         this.game = game;
+        stopwatch = new Stopwatch();
+        stopwatch.setBounds(420, 250, 160, 25);
+        this.add(stopwatch);
 
         // create Frame
-        this.setTitle("Solitaire"); // title
+        this.setTitle("Solitaire");         // title
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
         this.setSize(600, 500); // Frame Size -- maybe expand height
         this.setLayout(null);
         this.getContentPane()
                 .setBackground(new Color(29, 117, 36)); // background colour
-        // board.pack();
+        //        board.pack();
 
         // Creating a menu
         this.menuBar = new JMenuBar();
@@ -106,7 +111,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
         this.deckPanel = new JPanel(); // Deck Panel Probably define in class
         this.tracker = new JPanel(); // Card Tracker Probably define in class
 
-        // this.setLocationRelativeTo(null);
+        //this.setLocationRelativeTo(null);
     }
 
     public void setup() {
@@ -198,14 +203,16 @@ class Board extends JFrame implements ActionListener, MouseListener {
             System.out.println("new game");
             removePanels();
             setup();
-        } else {
+            stopwatch.reset();
+            stopwatch.start();
+        } else if (e.getSource() == exitItem) {
             System.exit(0);
+            stopwatch.stop();
         }
 
     }
 
-    // stateChange class to update talon/stockpile on
-    // click/////////////////////////////////////////
+    //stateChange class to update talon/stockpile on click/////////////////////////////////////////
     public void drawDeck() {
         stockpileLabel.addMouseListener(new MouseAdapter() {
             @Override
@@ -291,7 +298,10 @@ class Board extends JFrame implements ActionListener, MouseListener {
         } else {
             System.out.println("Something went wrong: Released");
         }
+        if (!stopwatch.isRunning()) {
+            stopwatch.start();
 
+        }
     }
 
     @Override
@@ -304,5 +314,16 @@ class Board extends JFrame implements ActionListener, MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    public void gameEnd(boolean playerWon) {
+        stopwatch.stop();
+
+        if (playerWon) {
+            JOptionPane.showMessageDialog(this, "Congratulations! You won!");
+        } else {
+            JOptionPane.showMessageDialog(this, "Game over. You lost.");
+        }
+        stopwatch.stop();
     }
 }
