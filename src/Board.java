@@ -256,7 +256,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        stopwatch.start();
     }
 
     @Override
@@ -279,7 +279,9 @@ class Board extends JFrame implements ActionListener, MouseListener {
         } else {
             System.out.println("Something went wrong: Pressed");
         }
-
+        if (!stopwatch.isRunning()) {
+            stopwatch.start();
+        }
     }
 
     @Override
