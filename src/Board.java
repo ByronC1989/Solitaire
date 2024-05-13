@@ -250,11 +250,20 @@ class Board extends JFrame implements ActionListener, MouseListener {
     }
 
     private void updateLabels() {
+
         if(game.getTalon().deckSize() != 0) {
             talonIcon = game.getTalon().topCard().displayCard();
             Timage.setIcon(talonIcon);
         } else {
             Timage.setIcon(null);
+        }
+
+        for(int i = 0; i < 4; i++) {
+            if(game.getFoundation().topCard(i) != null) {
+                System.out.println(game.getFoundation().topCard(i));
+            } else {
+                System.out.println("Foundation " + (i + 1) + " is empty");
+            }
         }
     }
 
@@ -306,11 +315,6 @@ class Board extends JFrame implements ActionListener, MouseListener {
             System.out.println("Something went wrong: Pressed");
         }
 
-        for(int i = 0; i < 4; i++) {
-            if(game.getFoundation().topCard(i) != null) {
-                System.out.println(game.getFoundation().topCard(i));
-            }
-        }
         updateLabels();
 
     }
