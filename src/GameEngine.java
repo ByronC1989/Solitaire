@@ -31,4 +31,36 @@ public class GameEngine {
     public Talon getTalon() {
         return talon;
     }
+
+    public void moveCard(Card card, String source) {
+
+        System.out.println(source);
+        System.out.println(card);
+
+        if(foundation.canPlace(card, Suit.HEARTS)) {
+
+           foundation.place(card, Suit.HEARTS);
+           System.out.println(card + "moved to HEARTS foundation");
+
+        } else if(foundation.canPlace(card, Suit.DIAMONDS)) {
+
+            foundation.place(card, Suit.DIAMONDS);
+            System.out.println(card + "moved to DIAMONDS foundation");
+
+        } else if(foundation.canPlace(card, Suit.CLUBS)) {
+
+            foundation.place(card, Suit.CLUBS);
+            System.out.println(card + "moved to CLUBS foundation");
+
+        } else if(foundation.canPlace(card, Suit.SPADES)) {
+
+            foundation.place(card, Suit.SPADES);
+            System.out.println(card + "moved to SPADES foundation");
+
+        }
+
+        foundation.printFoundation();
+
+    }
+
 }
