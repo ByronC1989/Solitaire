@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Graphics;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import javax.swing.border.AbstractBorder;
@@ -20,49 +19,20 @@ class RoundBorder extends AbstractBorder { // make the card slots rounded
         g2d.dispose();
     }
 
-}//end class RoundBorder
+}// end class RoundBorder
 
 class Board extends JFrame implements ActionListener, MouseListener {
 
     int width = 72;
     int height = 90;
-
-    // back of card
-    private final ImageIcon cardBack = new ImageIcon("src/Images/01_back.png");
-    // ImageIcon cardBack = new ImageIcon("Solitaire/src/Images/01_back.png");
-    private final Image backOfCard = cardBack.getImage()
-            .getScaledInstance(width, height, Image.SCALE_SMOOTH);
-    private final ImageIcon backScaled = new ImageIcon(backOfCard); //stockpile imgIcon
-    private final ImageIcon aceSpade = new ImageIcon("src/Images/ace_of_spades.png");
-    private final Image aceSpadeUpdate = aceSpade.getImage()
-            .getScaledInstance(width, height, Image.SCALE_SMOOTH);
-    private final ImageIcon aceSpadeScaled = new ImageIcon(aceSpadeUpdate); //stockpile imgIcon
-    private final ImageIcon aceHeart = new ImageIcon("src/Images/ace_of_hearts.png");
-    private final Image aceHeartUpdate = aceHeart.getImage()
-            .getScaledInstance(width, height, Image.SCALE_SMOOTH);
-    private final ImageIcon aceHeartScaled = new ImageIcon(aceHeartUpdate); //stockpile imgIcon
-    private final ImageIcon aceDiamonds = new ImageIcon("src/Images/ace_of_diamonds.png");
-    private final Image aceDiamondsUpdate = aceDiamonds.getImage()
-            .getScaledInstance(width, height, Image.SCALE_SMOOTH);
-    private final ImageIcon aceDiamondsScaled = new ImageIcon(aceDiamondsUpdate); //stockpile imgIcon
-
-    private final ImageIcon aceClubs = new ImageIcon("src/Images/ace_of_clubs.png");
-    private final Image aceClubsUpdate = aceClubs.getImage()
-            .getScaledInstance(width, height, Image.SCALE_SMOOTH);
-    private final ImageIcon aceClubsScaled = new ImageIcon(aceClubsUpdate); //stockpile imgIcon
-
     private ImageIcon talonIcon;
-
     // Labels
-    JLabel stockpileLabel = new JLabel(backScaled); //stockpile label
+    JLabel stockpileLabel; // stockpile label
     private JLabel talonLabel = new JLabel();
-    private JLabel fDiamond = new JLabel(aceDiamondsScaled); // diamond foundation label
-    private JLabel fHeart = new JLabel(aceHeartScaled);  // heart foundation label
-    private JLabel fClub = new JLabel(aceClubsScaled); // club foundation label
-    private JLabel fSpade = new JLabel(aceSpadeScaled); // spade foundation label
     JLabel text = new JLabel();
 
     private final JLabel[] tableauLabels = new JLabel[7];
+    private final JLabel[] foundationLabels = new JLabel[4];
     private JMenuBar menuBar;
     private JMenuItem gameItem;
     private JMenuItem exitItem;
@@ -75,23 +45,19 @@ class Board extends JFrame implements ActionListener, MouseListener {
     private final JPanel tracker;
 
     private GameEngine game;
-    private Stopwatch stopwatch;
 
     public Board(GameEngine game) {
         this.game = game;
-        stopwatch = new Stopwatch();
-        stopwatch.setBounds(420, 250, 160, 25);
-        this.add(stopwatch);
 
         // create Frame
-        this.setTitle("Solitaire");         // title
+        this.setTitle("Solitaire"); // title
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
         this.setSize(600, 500); // Frame Size -- maybe expand height
         this.setLayout(null);
         this.getContentPane()
                 .setBackground(new Color(29, 117, 36)); // background colour
-        //        board.pack();
+        // board.pack();
 
         // Creating a menu
         this.menuBar = new JMenuBar();
@@ -111,7 +77,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
         this.deckPanel = new JPanel(); // Deck Panel Probably define in class
         this.tracker = new JPanel(); // Card Tracker Probably define in class
 
-        //this.setLocationRelativeTo(null);
+        // this.setLocationRelativeTo(null);
     }
 
     public void setup() {
@@ -137,6 +103,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
         deckPanel.setBounds(420, 20, 160, 94);
         deckPanel.setLayout(null);
 
+        stockpileLabel = new JLabel(scaledImage(new ImageIcon("src/Images/01_back.png")));
         stockpileLabel.setBounds(80, 2, width, height);
         talonLabel.setBounds(5, 2, width, height);
         talonLabel.addMouseListener(this);
@@ -151,25 +118,16 @@ class Board extends JFrame implements ActionListener, MouseListener {
         foundationPanel.setBounds(10, 20, 320, 94);
         foundationPanel.setLayout(null);
 
-        fSpade.setBounds(5, 2, width, height);
-        fHeart.setBounds(82, 2, width, height);
-        fClub.setBounds(159, 2, width, height);
-        fDiamond.setBounds(236, 2, width, height);
-
-        fHeart.setIcon(createGreyedOutImage(fHeart.getIcon()));
-        fDiamond.setIcon(createGreyedOutImage(fDiamond.getIcon()));
-        fClub.setIcon(createGreyedOutImage(fClub.getIcon()));
-        fSpade.setIcon(createGreyedOutImage(fSpade.getIcon()));
-
-        fHeart.addMouseListener(this);
-        fDiamond.addMouseListener(this);
-        fClub.addMouseListener(this);
-        fSpade.addMouseListener(this);
-
-        foundationPanel.add(fDiamond);
-        foundationPanel.add(fHeart);
-        foundationPanel.add(fClub);
-        foundationPanel.add(fSpade);
+        int x = 5;
+        for (int i = 0; i < 4; i++) {
+            foundationLabels[i] = new JLabel();
+            foundationLabels[i].setBorder(new RoundBorder(10));
+            foundationLabels[i].setBounds(x, 2, width, height);
+            foundationLabels[i].addMouseListener(this);
+            // add tableau icon here
+            foundationPanel.add(foundationLabels[i]);
+            x += 77;
+        }
         this.add(foundationPanel);
     }
 
@@ -181,8 +139,10 @@ class Board extends JFrame implements ActionListener, MouseListener {
         for (int i = 0; i < 7; i++) {
             tableauLabels[i] = new JLabel();
             tableauLabels[i].setBorder(new RoundBorder(10));
+            tableauLabels[i].setIcon(scaledImage(game.getTableau().peekTopCard(i).displayCard()));
             tableauLabels[i].setBounds(x, 2, width, height);
             tableauLabels[i].addMouseListener(this);
+            // add tableau icon here
             tableauPanel.add(tableauLabels[i]);
             x += 80;
         }
@@ -194,6 +154,20 @@ class Board extends JFrame implements ActionListener, MouseListener {
         this.remove(foundationPanel);
         this.remove(deckPanel);
         this.remove(tracker);
+        // add clear labels
+        // use to update images of the foundation.
+        for(int i = 0; i < 4; i++) {
+                foundationLabels[i].setIcon(null);
+                foundationLabels[i].setBorder(new RoundBorder(10));
+        }
+        // use to update images of the tableau.
+        for(int i = 0; i < 7; i++) {
+                tableauLabels[i].setIcon(null);
+                tableauLabels[i].setBorder(new RoundBorder(10));
+                System.out.println("Tableau clean up");
+        }
+        talonLabel.setIcon(null);
+        game.cleanUp();
     }
 
     @Override
@@ -204,16 +178,21 @@ class Board extends JFrame implements ActionListener, MouseListener {
             System.out.println("new game");
             removePanels();
             setup();
-            stopwatch.reset();
-            stopwatch.start();
-        } else if (e.getSource() == exitItem) {
+        } else {
             System.exit(0);
-            stopwatch.stop();
         }
 
     }
 
-    //stateChange class to update talon/stockpile on click/////////////////////////////////////////
+    public ImageIcon scaledImage(ImageIcon image) {
+
+        Image newImage = image.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return new ImageIcon(newImage); // stockpile imgIcon
+
+    }
+
+    // stateChange class to update talon/stockpile on
+    // click/////////////////////////////////////////
     public void drawDeck() {
         stockpileLabel.addMouseListener(new MouseAdapter() {
             @Override
@@ -221,6 +200,11 @@ class Board extends JFrame implements ActionListener, MouseListener {
                 Card talonCard = null;
                 if (game.getDeck().deckSize() > 0) {
                     game.getDeck().moveCardsToTalon(game.getTalon(), 1);
+
+                    if(game.getTalon().topCard().getIsFaceDown()) {
+                        game.getTalon().topCard().flipCard(); // flip card
+                    }
+
                     talonCard = game.getTalon().topCard();
                     talonIcon = talonCard.displayCard();
                     Timage.setIcon(talonIcon);
@@ -231,7 +215,8 @@ class Board extends JFrame implements ActionListener, MouseListener {
                     }
                 } else {
                     game.getTalon().moveCardsToDeck(game.getDeck(), game.getTalon().deckSize());
-                    stockpileLabel.setIcon(backScaled);
+                    // stockpileLabel.setIcon(backScaled);
+                    stockpileLabel.setIcon(scaledImage(new ImageIcon("src/Images/01_back.png")));
                     Timage.setIcon(null);
                 }
             }
@@ -252,59 +237,155 @@ class Board extends JFrame implements ActionListener, MouseListener {
         return new ImageIcon(img);
     }
 
+    private void updateLabels() {
+
+        if(game.getTalon().deckSize() != 0) {
+            talonIcon = game.getTalon().topCard().displayCard();
+            Timage.setIcon(talonIcon);
+        } else {
+            Timage.setIcon(null);
+        }
+
+        // use to update images of the foundation.
+        for(int i = 0; i < 4; i++) {
+            if(game.getFoundation().topCard(i) != null) {
+                //System.out.println("Foundation " + (i + 1) + " " + game.getFoundation().topCard(i));
+                foundationLabels[i].setIcon(scaledImage(game.getFoundation().topCard(i).displayCard()));
+            } else {
+                //System.out.println("Foundation " + (i + 1) + " is empty");
+                foundationLabels[i].setIcon(null);
+                foundationLabels[i].setBorder(new RoundBorder(10));
+            }
+        }
+
+        // use to update images of the tableau.
+        for(int i = 0; i < 7; i++) {
+            if(game.getTableau().peekTopCard(i) != null) {
+                //System.out.println("Tableau " + (i + 1) + " " + game.getTableau().peekTopCard(i));
+                if(game.getTableau().peekTopCard(i).getIsFaceDown()){
+                    // flip card over if the next card is face down
+                    game.getTableau().peekTopCard(i).flipCard();
+                }
+                tableauLabels[i].setIcon(scaledImage(game.getTableau().peekTopCard(i).displayCard()));
+            } else {
+                //System.out.println("Tableau " + (i + 1) + " is empty");
+                tableauLabels[i].setIcon(null);
+                tableauLabels[i].setBorder(new RoundBorder(10));
+            }
+        }
+    }
+
     Component srcPile; // Store the source pile -- move to top
     Component destPile; // Store the destination pile -- move to top
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        stopwatch.start();
+
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
 
+        Card tempCard;
         srcPile = e.getComponent(); // gets the component of what was clicked on.
+        String source = "";
 
         if (srcPile == talonLabel) {
+
             System.out.println("Pressed on: Talon Pile");
-        } else if (srcPile == fHeart) {
-            System.out.println("Pressed on: Hearts Foundation");
-        } else if (srcPile == fDiamond) {
-            System.out.println("Pressed on: Diamonds Foundation");
-        } else if (srcPile == fClub) {
-            System.out.println("Pressed on: Clubs Foundation");
-        } else if (srcPile == fSpade) {
-            System.out.println("Pressed on: Spades Foundation");
+            source = "talon";
+            tempCard = game.getTalon().drawCard();
+            game.moveCard(tempCard, source);
+
+        } else if (srcPile == foundationLabels[0]) {
+
+            System.out.println("Pressed on: Foundation 01");
+            tempCard = game.getFoundation().removetopCard(0);
+            game.moveCard(tempCard, source);
+            System.out.println("Foundation 01 Card: " + tempCard);
+
+        } else if (srcPile == foundationLabels[1]) {
+
+            System.out.println("Pressed on: Foundation 02");
+            tempCard = game.getFoundation().removetopCard(1);
+            game.moveCard(tempCard, source);
+            System.out.println("Foundation 02 Card: " + tempCard);
+
+        } else if (srcPile == foundationLabels[2]) {
+
+            System.out.println("Pressed on: Foundation 03");
+            tempCard = game.getFoundation().removetopCard(2);
+            game.moveCard(tempCard, source);
+            System.out.println("Foundation 03 Card: " + tempCard);
+
+        } else if (srcPile == foundationLabels[3]) {
+
+            System.out.println("Pressed on: Foundation 04");
+            tempCard = game.getFoundation().removetopCard(3);
+            game.moveCard(tempCard, source);
+            System.out.println("Foundation 04 Card: " + tempCard);
+
         } else if (srcPile == tableauLabels[0]) {
+
             System.out.println("Pressed on: Tableau 01");
+            tempCard = game.getTableau().removeTopCard(0);
+            game.moveCard(tempCard, source);
+            System.out.println("Tableau 01 Card: " + tempCard);
+
+        } else if (srcPile == tableauLabels[1]) {
+
+            System.out.println("Pressed on: Tableau 02");
+            tempCard = game.getTableau().removeTopCard(1);
+            game.moveCard(tempCard, source);
+            System.out.println("Tableau 02 Card: " + tempCard);
+
+        } else if (srcPile == tableauLabels[2]) {
+
+            System.out.println("Pressed on: Tableau 03");
+            tempCard = game.getTableau().removeTopCard(2);
+            game.moveCard(tempCard, source);
+            System.out.println("Tableau 03 Card: " + tempCard);
+
+        } else if (srcPile == tableauLabels[3]) {
+
+            System.out.println("Pressed on: Tableau 04");
+            tempCard = game.getTableau().removeTopCard(3);
+            game.moveCard(tempCard, source);
+            System.out.println("Tableau 04 Card: " + tempCard);
+
+        } else if (srcPile == tableauLabels[4]) {
+
+            System.out.println("Pressed on: Tableau 05");
+            tempCard = game.getTableau().removeTopCard(4);
+            game.moveCard(tempCard, source);
+            System.out.println("Tableau 05 Card: " + tempCard);
+
+        } else if (srcPile == tableauLabels[5]) {
+
+            System.out.println("Pressed on: Tableau 06");
+            tempCard = game.getTableau().removeTopCard(5);
+            game.moveCard(tempCard, source);
+            System.out.println("Tableau 06 Card: " + tempCard);
+
+        } else if (srcPile == tableauLabels[6]) {
+
+            System.out.println("Pressed on: Tableau 07");
+            tempCard = game.getTableau().removeTopCard(6);
+            game.moveCard(tempCard, source);
+            System.out.println("Tableau 07 Card: " + tempCard);
+
         } else {
             System.out.println("Something went wrong: Pressed");
         }
-        if (!stopwatch.isRunning()) {
-            stopwatch.start();
-        }
+
+        source = "";
+        updateLabels();
+
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
 
-        if (destPile == talonLabel) {
-            System.out.println("Released on: Talon Pile");
-        } else if (destPile == fHeart) {
-            System.out.println("Released on: Hearts Foundation");
-        } else if (destPile == fDiamond) {
-            System.out.println("Released on: Diamonds Foundation");
-        } else if (destPile == fClub) {
-            System.out.println("Released on: Clubs Foundation");
-        } else if (destPile == fSpade) {
-            System.out.println("Released on: Spades Foundation");
-        } else {
-            System.out.println("Something went wrong: Released");
-        }
-        if (!stopwatch.isRunning()) {
-            stopwatch.start();
-
-        }
     }
 
     @Override
@@ -317,16 +398,5 @@ class Board extends JFrame implements ActionListener, MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {
 
-    }
-
-    public void gameEnd(boolean playerWon) {
-        stopwatch.stop();
-
-        if (playerWon) {
-            JOptionPane.showMessageDialog(this, "Congratulations! You won!");
-        } else {
-            JOptionPane.showMessageDialog(this, "Game over. You lost.");
-        }
-        stopwatch.stop();
     }
 }

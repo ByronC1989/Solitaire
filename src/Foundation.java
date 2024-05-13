@@ -18,18 +18,37 @@ public class Foundation {
             throw new IllegalArgumentException("Invalid index for foundation pile.");
         }
     }
+
+    public Card topCard(int columnIndex){
+        List<Card> column = getPile(columnIndex);
+        if (column != null && !column.isEmpty()) {
+            return column.get(column.size() - 1);
+        }
+        return null;
+    }
+
+    public Card removetopCard(int columnIndex){
+        List<Card> column = getPile(columnIndex);
+        if (column != null && !column.isEmpty()) {
+            return column.remove(column.size() - 1);
+        }
+        return null;
+    }
+
     // Check if a card can be placed on a specific suit pile.
     // A card can be placed if it's an Ace (when the pile is empty) or one rank
     // higher than the top card of the same suit.
     public boolean canPlace(Card card, Suit suit) {
         int index = suit.ordinal();
         List<Card> pile = piles.get(index);
-        if (pile.isEmpty() && card.getRank() == Rank.ACE.getRank()) {
-            return true; // Allow Ace on an empty pile
-        } else if (!pile.isEmpty()) {
-            Card topCard = pile.get(pile.size() - 1);
-            // Check if the card is the next rank up and the same suit
-            return card.getSuit() == topCard.getSuit() && card.getRank() == topCard.getRank() + 1;
+        if(card != null) {
+            if (pile.isEmpty() && card.getRank() == Rank.ACE.getRank()) {
+                return true; // Allow Ace on an empty pile
+            } else if (!pile.isEmpty()) {
+                Card topCard = pile.get(pile.size() - 1);
+                // Check if the card is the next rank up and the same suit
+                return card.getSuit() == topCard.getSuit() && card.getRank() == topCard.getRank() + 1;
+            }
         }
         return false;
     }

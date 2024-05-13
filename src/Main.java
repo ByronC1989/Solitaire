@@ -2,13 +2,14 @@ public class Main {
         public static void main(String[] args) {
 
                 GameEngine solitaire = new GameEngine();
-                Board board = new Board(solitaire);
-                board.setup();
-
                 solitaire.getDeck().shuffleDeck();
                 solitaire.getTableau().initialize(
                         solitaire.getDeck());
 
+                Board board = new Board(solitaire);
+                board.setup();
+
+                solitaire.getTableau().printTableau();
                 board.drawDeck();
 
 //                // Create deck of cards
