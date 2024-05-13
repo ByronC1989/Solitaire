@@ -36,27 +36,36 @@ public class GameEngine {
 
         System.out.println(source);
         System.out.println(card);
+        Card tempCard = card; // if card exists after logic and is from the talon return the card.
 
-        if(foundation.canPlace(card, Suit.HEARTS)) {
+        if(foundation.canPlace(tempCard, Suit.HEARTS)) {
 
-           foundation.place(card, Suit.HEARTS);
+           foundation.place(tempCard, Suit.HEARTS);
+           tempCard = null;
            System.out.println(card + "moved to HEARTS foundation");
 
-        } else if(foundation.canPlace(card, Suit.DIAMONDS)) {
+        } else if(foundation.canPlace(tempCard, Suit.DIAMONDS)) {
 
-            foundation.place(card, Suit.DIAMONDS);
+            foundation.place(tempCard, Suit.DIAMONDS);
+            tempCard = null;
             System.out.println(card + "moved to DIAMONDS foundation");
 
-        } else if(foundation.canPlace(card, Suit.CLUBS)) {
+        } else if(foundation.canPlace(tempCard, Suit.CLUBS)) {
 
-            foundation.place(card, Suit.CLUBS);
+            foundation.place(tempCard, Suit.CLUBS);
+            tempCard = null;
             System.out.println(card + "moved to CLUBS foundation");
 
-        } else if(foundation.canPlace(card, Suit.SPADES)) {
+        } else if(foundation.canPlace(tempCard, Suit.SPADES)) {
 
             foundation.place(card, Suit.SPADES);
+            tempCard = null;
             System.out.println(card + "moved to SPADES foundation");
 
+        }
+
+        if(tempCard != null && source.equals("talon")){
+            talon.addCard(tempCard); // return card to talon
         }
 
         foundation.printFoundation();
