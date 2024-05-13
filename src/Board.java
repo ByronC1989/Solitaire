@@ -73,7 +73,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
     private final JPanel deckPanel;
     private final JPanel tracker;
 
-    private final GameEngine game;
+    private GameEngine game;
 
     public Board(GameEngine game) {
         this.game = game;
@@ -244,13 +244,8 @@ class Board extends JFrame implements ActionListener, MouseListener {
         return new ImageIcon(img);
     }
 
-    private void updateLabels() {
-        Timage.setIcon(game.getTalon().topCard().displayCard()); // create update method
-    }
-
     Component srcPile; // Store the source pile -- move to top
     Component destPile; // Store the destination pile -- move to top
-    Card tempCard;
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -261,15 +256,9 @@ class Board extends JFrame implements ActionListener, MouseListener {
     public void mousePressed(MouseEvent e) {
 
         srcPile = e.getComponent(); // gets the component of what was clicked on.
-        String source;
 
         if (srcPile == talonLabel) {
-            source = "talon";
-            tempCard = game.getTalon().drawCard(); // try to move card
-            game.moveCard(tempCard, source);
-
             System.out.println("Pressed on: Talon Pile");
-
         } else if (srcPile == fHeart) {
             System.out.println("Pressed on: Hearts Foundation");
         } else if (srcPile == fDiamond) {
@@ -280,43 +269,29 @@ class Board extends JFrame implements ActionListener, MouseListener {
             System.out.println("Pressed on: Spades Foundation");
         } else if (srcPile == tableauLabels[0]) {
             System.out.println("Pressed on: Tableau 01");
-        } else if (srcPile == tableauLabels[1]) {
-            System.out.println("Pressed on: Tableau 02");
-        } else if (srcPile == tableauLabels[2]) {
-            System.out.println("Pressed on: Tableau 03");
-        } else if (srcPile == tableauLabels[3]) {
-            System.out.println("Pressed on: Tableau 04");
-        } else if (srcPile == tableauLabels[4]) {
-            System.out.println("Pressed on: Tableau 05");
-        } else if (srcPile == tableauLabels[5]) {
-            System.out.println("Pressed on: Tableau 06");
-        } else if (srcPile == tableauLabels[6]) {
-            System.out.println("Pressed on: Tableau 07");
         } else {
             System.out.println("Something went wrong: Pressed");
         }
-
-        updateLabels();
-
 
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
 
-//        if (destPile == talonLabel) {
-//            System.out.println("Released on: Talon Pile");
-//        } else if (destPile == fHeart) {
-//            System.out.println("Released on: Hearts Foundation");
-//        } else if (destPile == fDiamond) {
-//            System.out.println("Released on: Diamonds Foundation");
-//        } else if (destPile == fClub) {
-//            System.out.println("Released on: Clubs Foundation");
-//        } else if (destPile == fSpade) {
-//            System.out.println("Released on: Spades Foundation");
-//        } else {
-//            System.out.println("Something went wrong: Released");
-//        }
+        if (destPile == talonLabel) {
+            System.out.println("Released on: Talon Pile");
+        } else if (destPile == fHeart) {
+            System.out.println("Released on: Hearts Foundation");
+        } else if (destPile == fDiamond) {
+            System.out.println("Released on: Diamonds Foundation");
+        } else if (destPile == fClub) {
+            System.out.println("Released on: Clubs Foundation");
+        } else if (destPile == fSpade) {
+            System.out.println("Released on: Spades Foundation");
+        } else {
+            System.out.println("Something went wrong: Released");
+        }
+
     }
 
     @Override
