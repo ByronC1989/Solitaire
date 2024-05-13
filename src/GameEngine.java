@@ -70,18 +70,19 @@ public class GameEngine {
 
                 tempCard = tableau.addCard(i, tempCard);
             }
-            tableau.printTableau();
-
         }
 
         if(tempCard != null && source.equals("talon")){
             // check if card exists still for testing
-            System.out.println(tempCard);
+            System.out.println("Returned to talon " + tempCard);
             talon.addCard(tempCard); // return card to talon
         }
 
-        foundation.printFoundation();
-
     }
+
+    public void cleanUp() {
+        System.out.println("Cleaned up board");
+    }
+
 
 }

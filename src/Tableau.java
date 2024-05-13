@@ -47,6 +47,14 @@ public class Tableau {
         return null;
     }
 
+    public Card removeTopCard(int columnIndex) {
+        List<Card> column = getColumn(columnIndex);
+        if (column != null && !column.isEmpty()) {
+            return column.remove(column.size() - 1);
+        }
+        return null;
+    }
+
     // Remove the card(s) from the column when it is moved to another column and
     // return
     // a sublist of cards from the column.
