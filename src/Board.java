@@ -258,11 +258,21 @@ class Board extends JFrame implements ActionListener, MouseListener {
             Timage.setIcon(null);
         }
 
+        // use to update images of the foundation.
         for(int i = 0; i < 4; i++) {
             if(game.getFoundation().topCard(i) != null) {
-                System.out.println(game.getFoundation().topCard(i));
+                System.out.println("Foundation " + (i + 1) + " " + game.getFoundation().topCard(i));
             } else {
                 System.out.println("Foundation " + (i + 1) + " is empty");
+            }
+        }
+
+        // use to update images of the tableau.
+        for(int i = 0; i < 7; i++) {
+            if(game.getTableau().peekTopCard(i) != null) {
+                System.out.println("Tableau " + (i + 1) + " " + game.getTableau().peekTopCard(i));
+            } else {
+                System.out.println("Tableau " + (i + 1) + " is empty");
             }
         }
     }
