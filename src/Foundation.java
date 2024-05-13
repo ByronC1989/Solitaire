@@ -33,12 +33,14 @@ public class Foundation {
     public boolean canPlace(Card card, Suit suit) {
         int index = suit.ordinal();
         List<Card> pile = piles.get(index);
-        if (pile.isEmpty() && card.getRank() == Rank.ACE.getRank()) {
-            return true; // Allow Ace on an empty pile
-        } else if (!pile.isEmpty()) {
-            Card topCard = pile.get(pile.size() - 1);
-            // Check if the card is the next rank up and the same suit
-            return card.getSuit() == topCard.getSuit() && card.getRank() == topCard.getRank() + 1;
+        if(card != null) {
+            if (pile.isEmpty() && card.getRank() == Rank.ACE.getRank()) {
+                return true; // Allow Ace on an empty pile
+            } else if (!pile.isEmpty()) {
+                Card topCard = pile.get(pile.size() - 1);
+                // Check if the card is the next rank up and the same suit
+                return card.getSuit() == topCard.getSuit() && card.getRank() == topCard.getRank() + 1;
+            }
         }
         return false;
     }
