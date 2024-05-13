@@ -34,8 +34,6 @@ public class GameEngine {
 
     public void moveCard(Card card, String source) {
 
-        System.out.println(source);
-        System.out.println(card);
         Card tempCard = card; // if card exists after logic and is from the talon return the card.
 
         if(foundation.canPlace(tempCard, Suit.HEARTS)) {
@@ -67,7 +65,7 @@ public class GameEngine {
             for(int i = 0; i < 7; i++){
 
                 if (tempCard == null){
-                    break;
+                    break; // if a card is added to the tableau tempCard is made null
                 }
 
                 tempCard = tableau.addCard(i, tempCard);
