@@ -213,6 +213,11 @@ class Board extends JFrame implements ActionListener, MouseListener {
                 Card talonCard = null;
                 if (game.getDeck().deckSize() > 0) {
                     game.getDeck().moveCardsToTalon(game.getTalon(), 1);
+
+                    if(game.getTalon().topCard().getIsFaceDown()) {
+                        game.getTalon().topCard().flipCard(); // flip card
+                    }
+
                     talonCard = game.getTalon().topCard();
                     talonIcon = talonCard.displayCard();
                     Timage.setIcon(talonIcon);
@@ -245,8 +250,12 @@ class Board extends JFrame implements ActionListener, MouseListener {
     }
 
     private void updateLabels() {
-        talonIcon = game.getTalon().topCard().displayCard();
-        Timage.setIcon(talonIcon);
+        if(game.getTalon().deckSize() != 0) {
+            talonIcon = game.getTalon().topCard().displayCard();
+            Timage.setIcon(talonIcon);
+        } else {
+            Timage.setIcon(null);
+        }
     }
 
     Component srcPile; // Store the source pile -- move to top

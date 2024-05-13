@@ -62,9 +62,23 @@ public class GameEngine {
             tempCard = null;
             System.out.println(card + "moved to SPADES foundation");
 
+        } else {
+
+            for(int i = 0; i < 7; i++){
+
+                if (tempCard == null){
+                    break;
+                }
+
+                tempCard = tableau.addCard(i, tempCard);
+            }
+            tableau.printTableau();
+
         }
 
         if(tempCard != null && source.equals("talon")){
+            // check if card exists still for testing
+            System.out.println(tempCard);
             talon.addCard(tempCard); // return card to talon
         }
 

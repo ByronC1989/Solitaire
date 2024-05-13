@@ -71,11 +71,12 @@ public class Tableau {
     }
 
     // Only accept cards of the opposite colour in the tableau.
-    public void addCard(int columnIndex, Card card) {
+    public Card addCard(int columnIndex, Card card) {
         List<Card> column = getColumn(columnIndex);
         // if the tableau is empty and the card being added is a king add the card.
         if(column.isEmpty() && card.getRank() == 13){
             column.add(card);
+            return null;
         }
         // if card is less then the card before it.
         if(peekTopCard(columnIndex) != null && peekTopCard(columnIndex).getRank() - 1 == card.getRank()) {
@@ -84,15 +85,18 @@ public class Tableau {
                 if(peekTopCard(columnIndex).getIsRed()){
                     if(!card.getIsRed()){
                         column.add(card);
+                        return null;
                     }
                     // if the card is black only add a red card.
                 } else if(!peekTopCard(columnIndex).getIsRed()) {
                     if(card.getIsRed()){
                         column.add(card);
+                        return null;
                     }
                 }
             }
         }
+        return card;
     }
 
     // Check if the card can be moved to the column

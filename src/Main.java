@@ -9,6 +9,8 @@ public class Main {
                 solitaire.getTableau().initialize(
                         solitaire.getDeck());
 
+                solitaire.getTableau().printTableau();
+
                 board.drawDeck();
 
 //                // Create deck of cards
