@@ -125,6 +125,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
     private void initializeTracker() {
         tracker.setBounds(420, 116, 160, 25);
         text.setText("Cards Remaining: ");
+        text.setFont(new Font("Arial", Font.PLAIN, 16));
         text.setForeground(Color.white);
         tracker.setBackground(new Color(29, 117, 36));
         tracker.add(text);

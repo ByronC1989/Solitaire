@@ -9,10 +9,14 @@ public class Stopwatch extends JPanel implements ActionListener {
     private int elapsedTime;
     private boolean isTimerRunning;
 
+
     public Stopwatch() {
+        setBackground(new Color(29, 117, 36));
         timeLabel = new JLabel("00:00:00", JLabel.CENTER);
-        timeLabel.setFont(new Font("Arial", Font.PLAIN, 20));
-        timeLabel.setForeground(Color.black);
+        timeLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        timeLabel.setForeground(Color.white);
+        timeLabel.setOpaque(true);
+        timeLabel.setBackground(new Color(29, 117, 36));
 
         timer = new Timer(1000, this);
         timer.setInitialDelay(0);
