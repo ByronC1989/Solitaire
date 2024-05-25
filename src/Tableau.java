@@ -7,7 +7,7 @@ public class Tableau {
 
     public Tableau() {
         columns = new ArrayList<>();
-        // initalize 7 piles
+        // initialize 7 piles
         for (int i = 0; i < 7; i++) {
             columns.add(new ArrayList<>());
         }
@@ -18,8 +18,7 @@ public class Tableau {
             for (int j = 0; j <= i; j++) {
                 Card card = deck.drawCard();
                 if (j == i) {
-                    card.flipCard(); // Flip the last card in each column to face up (implement on swing to show the
-                                     // card face up
+                    card.flipCard(); // Flip the last card in each column to face up
                 }
                 columns.get(i).add(card);
             }
@@ -27,17 +26,11 @@ public class Tableau {
     }
 
     public List<Card> getColumn(int index) {
-        // retrieve the column at the given index
         if (index >= 0 && index < columns.size()) {
             return columns.get(index);
         }
         return null;
     }
-
-    // Get the top card of the column for checking if the card can be moved
-    // onto it. For example, if the card is a King, it can only be moved onto
-    // an empty column so 'peekTopCard' will be used to check if the column
-    // is empty.
 
     public Card peekTopCard(int columnIndex) {
         List<Card> column = getColumn(columnIndex);
@@ -50,65 +43,53 @@ public class Tableau {
     public Card removeTopCard(int columnIndex) {
         List<Card> column = getColumn(columnIndex);
         if (column != null && !column.isEmpty()) {
-            return column.remove(column.size() - 1);
+            Card card = column.remove(column.size() - 1);
+            System.out.println("Removed top card: " + card + " from column: " + columnIndex);
+            return card;
         }
         return null;
     }
 
-    // Remove the card(s) from the column when it is moved to another column and
-    // return
-    // a sublist of cards from the column.
     public List<Card> removeCards(int columnIndex, int fromIndex) {
         List<Card> column = getColumn(columnIndex);
-        if (column == null || fromIndex < 0 || fromIndex >= column.size()) {
-            return null;
+        if (column != null && fromIndex >= 0 && fromIndex < column.size()) {
+            List<Card> removedCards = new ArrayList<>(column.subList(fromIndex, column.size()));
+            column.subList(fromIndex, column.size()).clear();
+            System.out.println("Removed cards from index " + fromIndex + " from column: " + columnIndex);
+            return removedCards;
         }
-
-        List<Card> removedCards = new ArrayList<>(column.subList(fromIndex, column.size()));
-        column.subList(fromIndex, column.size()).clear();
-        return removedCards;
+        return null;
     }
 
-    // Adds list of cards to the end of a specified column. Functionaliy is for
-    // moving cards from one column to another
     public void addCards(int columnIndex, List<Card> cards) {
         List<Card> column = getColumn(columnIndex);
         if (column != null && cards != null) {
             column.addAll(cards);
+            System.out.println("Added cards: " + cards + " to column: " + columnIndex);
         }
     }
 
-    // Only accept cards of the opposite colour in the tableau.
     public Card addCard(int columnIndex, Card card) {
         List<Card> column = getColumn(columnIndex);
-        // if the tableau is empty and the card being added is a king add the card.
-        if(column.isEmpty() && card.getRank() == 13){
+        if (column.isEmpty() && card.getRank() == 13) { // King
             column.add(card);
+            System.out.println("Added King card: " + card + " to empty column: " + columnIndex);
             return null;
         }
-        // if card is less then the card before it.
-        if(peekTopCard(columnIndex) != null && peekTopCard(columnIndex).getRank() - 1 == card.getRank()) {
-            // if the card is red only add a black card.
-            if (peekTopCard(columnIndex) != null) {
-                if(peekTopCard(columnIndex).getIsRed()){
-                    if(!card.getIsRed()){
-                        column.add(card);
-                        return null;
-                    }
-                    // if the card is black only add a red card.
-                } else if(!peekTopCard(columnIndex).getIsRed()) {
-                    if(card.getIsRed()){
-                        column.add(card);
-                        return null;
-                    }
-                }
+        if (peekTopCard(columnIndex) != null && peekTopCard(columnIndex).getRank() - 1 == card.getRank()) {
+            if (peekTopCard(columnIndex).getIsRed() && !card.getIsRed()) {
+                column.add(card);
+                System.out.println("Added card: " + card + " to column: " + columnIndex);
+                return null;
+            } else if (!peekTopCard(columnIndex).getIsRed() && card.getIsRed()) {
+                column.add(card);
+                System.out.println("Added card: " + card + " to column: " + columnIndex);
+                return null;
             }
         }
         return card;
     }
 
-    // Check if the card can be moved to the column
-    // USE FOR DEBUGGING/TEXT REPRESENTATION BEFORE SWING IMPLEMENTATION
     public void printTableau() {
         for (int i = 0; i < columns.size(); i++) {
             System.out.println("Column " + (i + 1) + ":");
@@ -118,11 +99,10 @@ public class Tableau {
         }
     }
 
-    // demo method some comments
     public void printFirstTableau() {
-            System.out.println("Column " + (1) + ":");
-            for (Card card : columns.get(0)) {
-                System.out.println(card);
-            }
+        System.out.println("Column " + (1) + ":");
+        for (Card card : columns.get(0)) {
+            System.out.println(card);
+        }
     }
 }
