@@ -45,9 +45,14 @@ class Board extends JFrame implements ActionListener, MouseListener {
     private final JPanel tracker;
 
     private GameEngine game;
+    public Stopwatch stopwatch;
 
     public Board(GameEngine game) {
         this.game = game;
+
+        this.stopwatch = new Stopwatch();
+        this.stopwatch.setBounds(420, 250, 160, 25);
+        this.add(stopwatch);
 
         // create Frame
         this.setTitle("Solitaire"); // title
@@ -280,7 +285,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        stopwatch.start();
     }
 
     @Override
@@ -381,11 +386,16 @@ class Board extends JFrame implements ActionListener, MouseListener {
         source = "";
         updateLabels();
 
+        if (!stopwatch.isRunning()) {
+            stopwatch.start();
+        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        if (!stopwatch.isRunning()) {
+            stopwatch.start();
+        }
     }
 
     @Override
