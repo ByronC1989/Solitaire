@@ -32,52 +32,61 @@ public class GameEngine {
         return talon;
     }
 
-    public void moveCard(Card card, String source) {
+    public boolean moveCard(Card card, String source) {
 
-        Card tempCard = card; // if card exists after logic and is from the talon return the card.
+        // Card tempCard = card; // if card exists after logic and is from the talon return the card.
 
-        if(foundation.canPlace(tempCard, Suit.HEARTS)) {
+            if(foundation.canPlace(card, Suit.HEARTS)) {
 
-           foundation.place(tempCard, Suit.HEARTS);
-           tempCard = null;
-           System.out.println(card + "moved to HEARTS foundation");
+                foundation.place(card, Suit.HEARTS);
+                System.out.println(card + " moved to HEARTS foundation");
+                return true;
 
-        } else if(foundation.canPlace(tempCard, Suit.DIAMONDS)) {
+            } else if(foundation.canPlace(card, Suit.DIAMONDS)) {
 
-            foundation.place(tempCard, Suit.DIAMONDS);
-            tempCard = null;
-            System.out.println(card + "moved to DIAMONDS foundation");
+                foundation.place(card, Suit.DIAMONDS);
+                System.out.println(card + " moved to DIAMONDS foundation");
+                return true;
 
-        } else if(foundation.canPlace(tempCard, Suit.CLUBS)) {
+            } else if(foundation.canPlace(card, Suit.CLUBS)) {
 
-            foundation.place(tempCard, Suit.CLUBS);
-            tempCard = null;
-            System.out.println(card + "moved to CLUBS foundation");
+                foundation.place(card, Suit.CLUBS);
+                System.out.println(card + " moved to CLUBS foundation");
+                return true;
 
-        } else if(foundation.canPlace(tempCard, Suit.SPADES)) {
+            } else if(foundation.canPlace(card, Suit.SPADES)) {
 
-            foundation.place(card, Suit.SPADES);
-            tempCard = null;
-            System.out.println(card + "moved to SPADES foundation");
+                foundation.place(card, Suit.SPADES);
+                System.out.println(card + " moved to SPADES foundation");
+                return true;
 
-        } else {
+            } else {
 
-            for(int i = 0; i < 7; i++){
-
-                if (tempCard == null){
-                    break; // if a card is added to the tableau tempCard is made null
+                if(moveCardTableau(card)){
+                    return true;
                 }
 
-                tempCard = tableau.addCard(i, tempCard);
             }
-        }
 
-        if(tempCard != null && source.equals("talon")){
-            // check if card exists still for testing
-            System.out.println("Returned to talon " + tempCard);
-            talon.addCard(tempCard); // return card to talon
-        }
+            if(card != null && source.equals("talon")){
+                // check if card exists still for testing
+                System.out.println("Returned to talon " + card);
+                talon.addCard(card); // return card to talon
+            }
 
+            return false;
+    }
+
+    public boolean moveCardTableau(Card tempCard) {
+
+        for(int i = 0; i < 7; i++){
+
+            if (tableau.addCard(i, tempCard)){
+                return true;
+            }
+
+        }
+        return false;
     }
 
     public void cleanUp() {

@@ -69,25 +69,25 @@ public class Tableau {
         }
     }
 
-    public Card addCard(int columnIndex, Card card) {
+    public boolean addCard(int columnIndex, Card card) {
         List<Card> column = getColumn(columnIndex);
         if (column.isEmpty() && card.getRank() == 13) { // King
             column.add(card);
             System.out.println("Added King card: " + card + " to empty column: " + columnIndex);
-            return null;
+            return true;
         }
         if (peekTopCard(columnIndex) != null && peekTopCard(columnIndex).getRank() - 1 == card.getRank()) {
             if (peekTopCard(columnIndex).getIsRed() && !card.getIsRed()) {
                 column.add(card);
                 System.out.println("Added card: " + card + " to column: " + columnIndex);
-                return null;
+                return true;
             } else if (!peekTopCard(columnIndex).getIsRed() && card.getIsRed()) {
                 column.add(card);
                 System.out.println("Added card: " + card + " to column: " + columnIndex);
-                return null;
+                return true;
             }
         }
-        return card;
+        return false;
     }
 
     public void printTableau() {

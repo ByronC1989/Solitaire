@@ -95,7 +95,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
 
     private void initializeTracker() {
         tracker.setBounds(420, 116, 160, 25);
-        text.setText("Cards Remaining: ");
+        text.setText("Cards Remaining: " + game.getDeck().deckSize());
         text.setFont(new Font("Arial", Font.PLAIN, 16));
         text.setForeground(Color.white);
         tracker.setBackground(new Color(29, 117, 36));
@@ -222,6 +222,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
                     game.getTalon().moveCardsToDeck(game.getDeck(), game.getTalon().deckSize());
                     // stockpileLabel.setIcon(backScaled);
                     stockpileLabel.setIcon(scaledImage(new ImageIcon("src/Images/01_back.png")));
+                    text.setText("Cards Remaining: " + game.getDeck().deckSize());
                     Timage.setIcon(null);
                 }
             }
@@ -305,85 +306,106 @@ class Board extends JFrame implements ActionListener, MouseListener {
         } else if (srcPile == foundationLabels[0]) {
 
             System.out.println("Pressed on: Foundation 01");
-            tempCard = game.getFoundation().removetopCard(0);
-            game.moveCard(tempCard, source);
+            tempCard = game.getFoundation().topCard(0);
+            if(game.moveCardTableau(tempCard)){
+                game.getFoundation().removetopCard(0);
+            }
             System.out.println("Foundation 01 Card: " + tempCard);
 
         } else if (srcPile == foundationLabels[1]) {
 
             System.out.println("Pressed on: Foundation 02");
-            tempCard = game.getFoundation().removetopCard(1);
-            game.moveCard(tempCard, source);
+            tempCard = game.getFoundation().topCard(1);
+            if(game.moveCardTableau(tempCard)){
+                game.getFoundation().removetopCard(1);
+            }
             System.out.println("Foundation 02 Card: " + tempCard);
 
         } else if (srcPile == foundationLabels[2]) {
 
             System.out.println("Pressed on: Foundation 03");
-            tempCard = game.getFoundation().removetopCard(2);
-            game.moveCard(tempCard, source);
+            tempCard = game.getFoundation().topCard(2);
+            if(game.moveCardTableau(tempCard)){
+                game.getFoundation().removetopCard(2);
+            }
             System.out.println("Foundation 03 Card: " + tempCard);
 
         } else if (srcPile == foundationLabels[3]) {
 
             System.out.println("Pressed on: Foundation 04");
-            tempCard = game.getFoundation().removetopCard(3);
-            game.moveCard(tempCard, source);
+            tempCard = game.getFoundation().topCard(3);
+            if(game.moveCardTableau(tempCard)){
+                game.getFoundation().removetopCard(3);
+            }
             System.out.println("Foundation 04 Card: " + tempCard);
 
         } else if (srcPile == tableauLabels[0]) {
 
             System.out.println("Pressed on: Tableau 01");
-            tempCard = game.getTableau().removeTopCard(0);
-            game.moveCard(tempCard, source);
+            tempCard = game.getTableau().peekTopCard(0);
+            if(game.moveCard(tempCard, source)){
+              game.getTableau().removeTopCard(0);
+            }
             System.out.println("Tableau 01 Card: " + tempCard);
 
         } else if (srcPile == tableauLabels[1]) {
 
             System.out.println("Pressed on: Tableau 02");
-            tempCard = game.getTableau().removeTopCard(1);
-            game.moveCard(tempCard, source);
+            tempCard = game.getTableau().peekTopCard(1);
+            if(game.moveCard(tempCard, source)){
+                game.getTableau().removeTopCard(1);
+            }
             System.out.println("Tableau 02 Card: " + tempCard);
 
         } else if (srcPile == tableauLabels[2]) {
 
             System.out.println("Pressed on: Tableau 03");
-            tempCard = game.getTableau().removeTopCard(2);
-            game.moveCard(tempCard, source);
+            tempCard = game.getTableau().peekTopCard(2);
+            if(game.moveCard(tempCard, source)){
+                game.getTableau().removeTopCard(2);
+            }
             System.out.println("Tableau 03 Card: " + tempCard);
 
         } else if (srcPile == tableauLabels[3]) {
 
             System.out.println("Pressed on: Tableau 04");
-            tempCard = game.getTableau().removeTopCard(3);
-            game.moveCard(tempCard, source);
+            tempCard = game.getTableau().peekTopCard(3);
+            if(game.moveCard(tempCard, source)){
+                game.getTableau().removeTopCard(3);
+            }
             System.out.println("Tableau 04 Card: " + tempCard);
 
         } else if (srcPile == tableauLabels[4]) {
 
             System.out.println("Pressed on: Tableau 05");
-            tempCard = game.getTableau().removeTopCard(4);
-            game.moveCard(tempCard, source);
+            tempCard = game.getTableau().peekTopCard(4);
+            if(game.moveCard(tempCard, source)){
+                game.getTableau().removeTopCard(4);
+            }
             System.out.println("Tableau 05 Card: " + tempCard);
 
         } else if (srcPile == tableauLabels[5]) {
 
             System.out.println("Pressed on: Tableau 06");
-            tempCard = game.getTableau().removeTopCard(5);
-            game.moveCard(tempCard, source);
+            tempCard = game.getTableau().peekTopCard(5);
+            if(game.moveCard(tempCard, source)){
+                game.getTableau().removeTopCard(5);
+            }
             System.out.println("Tableau 06 Card: " + tempCard);
 
         } else if (srcPile == tableauLabels[6]) {
 
             System.out.println("Pressed on: Tableau 07");
-            tempCard = game.getTableau().removeTopCard(6);
-            game.moveCard(tempCard, source);
+            tempCard = game.getTableau().peekTopCard(6);
+            if(game.moveCard(tempCard, source)){
+                game.getTableau().removeTopCard(6);
+            }
             System.out.println("Tableau 07 Card: " + tempCard);
 
         } else {
             System.out.println("Something went wrong: Pressed");
         }
 
-        source = "";
         updateLabels();
 
         if (!stopwatch.isRunning()) {
