@@ -161,15 +161,15 @@ class Board extends JFrame implements ActionListener, MouseListener {
         this.remove(tracker);
         // add clear labels
         // use to update images of the foundation.
-        for(int i = 0; i < 4; i++) {
-                foundationLabels[i].setIcon(null);
-                foundationLabels[i].setBorder(new RoundBorder(10));
+        for (int i = 0; i < 4; i++) {
+            foundationLabels[i].setIcon(null);
+            foundationLabels[i].setBorder(new RoundBorder(10));
         }
         // use to update images of the tableau.
-        for(int i = 0; i < 7; i++) {
-                tableauLabels[i].setIcon(null);
-                tableauLabels[i].setBorder(new RoundBorder(10));
-                System.out.println("Tableau clean up");
+        for (int i = 0; i < 7; i++) {
+            tableauLabels[i].setIcon(null);
+            tableauLabels[i].setBorder(new RoundBorder(10));
+            System.out.println("Tableau clean up");
         }
         talonLabel.setIcon(null);
         game.cleanUp();
@@ -189,8 +189,14 @@ class Board extends JFrame implements ActionListener, MouseListener {
                 stopwatch.stop();
                 stopwatch.reset();
             }
-        } else {
-            System.exit(0);
+        } else if (e.getSource() == exitItem) {
+            int dialogButton = JOptionPane.showConfirmDialog(null, "Are you sure?", "Exit", JOptionPane.YES_NO_OPTION);
+
+            if (dialogButton == JOptionPane.YES_OPTION) {
+                System.exit(0);
+            } else {
+                remove(dialogButton);
+            }
         }
 
     }
@@ -212,7 +218,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
                 if (game.getDeck().deckSize() > 0) {
                     game.getDeck().moveCardsToTalon(game.getTalon(), 1);
 
-                    if(game.getTalon().topCard().getIsFaceDown()) {
+                    if (game.getTalon().topCard().getIsFaceDown()) {
                         game.getTalon().topCard().flipCard(); // flip card
                     }
 
@@ -251,7 +257,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
 
     private void updateLabels() {
 
-        if(game.getTalon().deckSize() != 0) {
+        if (game.getTalon().deckSize() != 0) {
             talonIcon = game.getTalon().topCard().displayCard();
             Timage.setIcon(talonIcon);
         } else {
@@ -259,28 +265,30 @@ class Board extends JFrame implements ActionListener, MouseListener {
         }
 
         // use to update images of the foundation.
-        for(int i = 0; i < 4; i++) {
-            if(game.getFoundation().topCard(i) != null) {
-                //System.out.println("Foundation " + (i + 1) + " " + game.getFoundation().topCard(i));
+        for (int i = 0; i < 4; i++) {
+            if (game.getFoundation().topCard(i) != null) {
+                // System.out.println("Foundation " + (i + 1) + " " +
+                // game.getFoundation().topCard(i));
                 foundationLabels[i].setIcon(scaledImage(game.getFoundation().topCard(i).displayCard()));
             } else {
-                //System.out.println("Foundation " + (i + 1) + " is empty");
+                // System.out.println("Foundation " + (i + 1) + " is empty");
                 foundationLabels[i].setIcon(null);
                 foundationLabels[i].setBorder(new RoundBorder(10));
             }
         }
 
         // use to update images of the tableau.
-        for(int i = 0; i < 7; i++) {
-            if(game.getTableau().peekTopCard(i) != null) {
-                //System.out.println("Tableau " + (i + 1) + " " + game.getTableau().peekTopCard(i));
-                if(game.getTableau().peekTopCard(i).getIsFaceDown()){
+        for (int i = 0; i < 7; i++) {
+            if (game.getTableau().peekTopCard(i) != null) {
+                // System.out.println("Tableau " + (i + 1) + " " +
+                // game.getTableau().peekTopCard(i));
+                if (game.getTableau().peekTopCard(i).getIsFaceDown()) {
                     // flip card over if the next card is face down
                     game.getTableau().peekTopCard(i).flipCard();
                 }
                 tableauLabels[i].setIcon(scaledImage(game.getTableau().peekTopCard(i).displayCard()));
             } else {
-                //System.out.println("Tableau " + (i + 1) + " is empty");
+                // System.out.println("Tableau " + (i + 1) + " is empty");
                 tableauLabels[i].setIcon(null);
                 tableauLabels[i].setBorder(new RoundBorder(10));
             }
@@ -313,7 +321,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
 
             System.out.println("Pressed on: Foundation 01");
             tempCard = game.getFoundation().topCard(0);
-            if(game.moveCardTableau(tempCard)){
+            if (game.moveCardTableau(tempCard)) {
                 game.getFoundation().removetopCard(0);
             }
             System.out.println("Foundation 01 Card: " + tempCard);
@@ -322,7 +330,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
 
             System.out.println("Pressed on: Foundation 02");
             tempCard = game.getFoundation().topCard(1);
-            if(game.moveCardTableau(tempCard)){
+            if (game.moveCardTableau(tempCard)) {
                 game.getFoundation().removetopCard(1);
             }
             System.out.println("Foundation 02 Card: " + tempCard);
@@ -331,7 +339,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
 
             System.out.println("Pressed on: Foundation 03");
             tempCard = game.getFoundation().topCard(2);
-            if(game.moveCardTableau(tempCard)){
+            if (game.moveCardTableau(tempCard)) {
                 game.getFoundation().removetopCard(2);
             }
             System.out.println("Foundation 03 Card: " + tempCard);
@@ -340,7 +348,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
 
             System.out.println("Pressed on: Foundation 04");
             tempCard = game.getFoundation().topCard(3);
-            if(game.moveCardTableau(tempCard)){
+            if (game.moveCardTableau(tempCard)) {
                 game.getFoundation().removetopCard(3);
             }
             System.out.println("Foundation 04 Card: " + tempCard);
@@ -349,8 +357,8 @@ class Board extends JFrame implements ActionListener, MouseListener {
 
             System.out.println("Pressed on: Tableau 01");
             tempCard = game.getTableau().peekTopCard(0);
-            if(game.moveCard(tempCard, source)){
-              game.getTableau().removeTopCard(0);
+            if (game.moveCard(tempCard, source)) {
+                game.getTableau().removeTopCard(0);
             }
             System.out.println("Tableau 01 Card: " + tempCard);
 
@@ -358,7 +366,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
 
             System.out.println("Pressed on: Tableau 02");
             tempCard = game.getTableau().peekTopCard(1);
-            if(game.moveCard(tempCard, source)){
+            if (game.moveCard(tempCard, source)) {
                 game.getTableau().removeTopCard(1);
             }
             System.out.println("Tableau 02 Card: " + tempCard);
@@ -367,7 +375,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
 
             System.out.println("Pressed on: Tableau 03");
             tempCard = game.getTableau().peekTopCard(2);
-            if(game.moveCard(tempCard, source)){
+            if (game.moveCard(tempCard, source)) {
                 game.getTableau().removeTopCard(2);
             }
             System.out.println("Tableau 03 Card: " + tempCard);
@@ -376,7 +384,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
 
             System.out.println("Pressed on: Tableau 04");
             tempCard = game.getTableau().peekTopCard(3);
-            if(game.moveCard(tempCard, source)){
+            if (game.moveCard(tempCard, source)) {
                 game.getTableau().removeTopCard(3);
             }
             System.out.println("Tableau 04 Card: " + tempCard);
@@ -385,7 +393,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
 
             System.out.println("Pressed on: Tableau 05");
             tempCard = game.getTableau().peekTopCard(4);
-            if(game.moveCard(tempCard, source)){
+            if (game.moveCard(tempCard, source)) {
                 game.getTableau().removeTopCard(4);
             }
             System.out.println("Tableau 05 Card: " + tempCard);
@@ -394,7 +402,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
 
             System.out.println("Pressed on: Tableau 06");
             tempCard = game.getTableau().peekTopCard(5);
-            if(game.moveCard(tempCard, source)){
+            if (game.moveCard(tempCard, source)) {
                 game.getTableau().removeTopCard(5);
             }
             System.out.println("Tableau 06 Card: " + tempCard);
@@ -403,7 +411,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
 
             System.out.println("Pressed on: Tableau 07");
             tempCard = game.getTableau().peekTopCard(6);
-            if(game.moveCard(tempCard, source)){
+            if (game.moveCard(tempCard, source)) {
                 game.getTableau().removeTopCard(6);
             }
             System.out.println("Tableau 07 Card: " + tempCard);
