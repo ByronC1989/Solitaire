@@ -48,6 +48,10 @@ public class Talon implements CardPile{
         }
     }
 
+    public void emptyTalon() {
+        cards.clear();
+    }
+
     public String printDeck() {
         String str = "";
         for (Card c : cards) {

@@ -91,6 +91,19 @@ public class GameEngine {
 
     public void cleanUp() {
         System.out.println("Cleaned up board");
+        deck.emptyDeck();
+        talon.emptyTalon();
+        foundation.emptyFoundation();
+        tableau.emptyTableau();
+    }
+
+    public void initializeGame(){
+        System.out.println("Start new game");
+        foundation.initializeFoundation();
+        tableau.createTableau();
+        deck.fillDeck();
+        tableau.initialize(deck);
+        tableau.printTableau();
     }
 
 

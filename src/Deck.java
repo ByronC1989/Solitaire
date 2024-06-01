@@ -20,6 +20,17 @@ public class Deck implements CardPile {
         }
     }
 
+    public void fillDeck() {
+        for (Suit suit : Suit.values()) {
+            for (Rank rank : Rank.values()) {
+                Card card = new Card(rank, suit);
+                //card.flipCard(); // remove this after testing so that cards are facedown.
+                cards.add(card);
+                Collections.shuffle(cards);
+            }
+        }
+    }
+
     public void emptyDeck() {
         cards.clear();
     }

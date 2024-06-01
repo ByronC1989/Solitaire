@@ -13,6 +13,17 @@ public class Tableau {
         }
     }
 
+    public void createTableau() {
+        // initialize 7 piles
+        for (int i = 0; i < 7; i++) {
+            columns.add(new ArrayList<>());
+        }
+    }
+
+    public void emptyTableau() {
+        columns.clear();
+    }
+
     public void initialize(Deck deck) {
         for (int i = 0; i < columns.size(); i++) {
             for (int j = 0; j <= i; j++) {

@@ -71,6 +71,16 @@ public class Foundation {
         }
     }
 
+    public void emptyFoundation() {
+        piles.clear();
+    }
+
+    public void initializeFoundation() {
+        for (int i = 0; i < 4; i++) {
+            piles.add(new ArrayList<>()); // Create an empty list for each suit
+        }
+    }
+
     // Count the total number of cards in all foundation piles.
     // This can be useful for tracking progress or determining if the game is won.
     public int count() {
