@@ -181,13 +181,19 @@ class Board extends JFrame implements ActionListener, MouseListener {
         if (e.getSource() == gameItem) {
             // needs some kind of update
             System.out.println("new game");
-            game.cleanUp();
-            game.initializeGame();
-            updateLabels();
-            text.setText("Cards Remaining: " + game.getDeck().deckSize());
-            if (stopwatch.isRunning()) {
-                stopwatch.stop();
-                stopwatch.reset();
+            int dialogButton = JOptionPane.showConfirmDialog(null, "Are you sure?", "New Game",
+                    JOptionPane.YES_NO_OPTION);
+            if (dialogButton == JOptionPane.YES_OPTION) {
+                game.cleanUp();
+                game.initializeGame();
+                updateLabels();
+                text.setText("Cards Remaining: " + game.getDeck().deckSize());
+                if (stopwatch.isRunning()) {
+                    stopwatch.stop();
+                    stopwatch.reset();
+                }
+            } else {
+                remove(dialogButton);
             }
         } else if (e.getSource() == exitItem) {
             int dialogButton = JOptionPane.showConfirmDialog(null, "Are you sure?", "Exit", JOptionPane.YES_NO_OPTION);
@@ -198,7 +204,6 @@ class Board extends JFrame implements ActionListener, MouseListener {
                 remove(dialogButton);
             }
         }
-
     }
 
     public ImageIcon scaledImage(ImageIcon image) {
