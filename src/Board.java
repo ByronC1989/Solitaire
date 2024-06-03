@@ -23,6 +23,8 @@ class RoundBorder extends AbstractBorder { // make the card slots rounded
 
 class Board extends JFrame implements ActionListener, MouseListener {
 
+    private Scoring scoring;
+    private JLabel scoreLabel;
     int width = 72;
     int height = 90;
     private ImageIcon talonIcon;
@@ -49,6 +51,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
 
     public Board(GameEngine game) {
         this.game = game;
+        this.scoring = new Scoring();
 
         this.stopwatch = new Stopwatch();
         this.stopwatch.setBounds(420, 250, 160, 25);
@@ -83,7 +86,13 @@ class Board extends JFrame implements ActionListener, MouseListener {
         this.tracker = new JPanel(); // Card Tracker Probably define in class
 
         // this.setLocationRelativeTo(null);
-    }
+        scoreLabel = new JLabel("Score: " + scoring.getScore());
+        scoreLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        scoreLabel.setForeground(Color.white);
+        scoreLabel.setBounds(250, 3, 160, 25);
+        this.add(scoreLabel);
+        }
+        // Create a score label and add it to the GUI
 
     public void setup() {
         initializeTracker();
@@ -321,6 +330,8 @@ class Board extends JFrame implements ActionListener, MouseListener {
             source = "talon";
             tempCard = game.getTalon().drawCard();
             game.moveCard(tempCard, source);
+            scoring.scoreStockToTableau(); //this method is for points
+
 
         } else if (srcPile == foundationLabels[0]) {
 
@@ -328,6 +339,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
             tempCard = game.getFoundation().topCard(0);
             if (game.moveCardTableau(tempCard)) {
                 game.getFoundation().removetopCard(0);
+                scoring.scoreTableauToFoundation();
             }
             System.out.println("Foundation 01 Card: " + tempCard);
 
@@ -337,6 +349,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
             tempCard = game.getFoundation().topCard(1);
             if (game.moveCardTableau(tempCard)) {
                 game.getFoundation().removetopCard(1);
+                scoring.scoreTableauToFoundation();
             }
             System.out.println("Foundation 02 Card: " + tempCard);
 
@@ -346,6 +359,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
             tempCard = game.getFoundation().topCard(2);
             if (game.moveCardTableau(tempCard)) {
                 game.getFoundation().removetopCard(2);
+                scoring.scoreTableauToFoundation();
             }
             System.out.println("Foundation 03 Card: " + tempCard);
 
@@ -355,6 +369,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
             tempCard = game.getFoundation().topCard(3);
             if (game.moveCardTableau(tempCard)) {
                 game.getFoundation().removetopCard(3);
+                scoring.scoreTableauToFoundation();
             }
             System.out.println("Foundation 04 Card: " + tempCard);
 
@@ -364,6 +379,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
             tempCard = game.getTableau().peekTopCard(0);
             if (game.moveCard(tempCard, source)) {
                 game.getTableau().removeTopCard(0);
+                scoring.scoreStockToTableau();
             }
             System.out.println("Tableau 01 Card: " + tempCard);
 
@@ -373,6 +389,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
             tempCard = game.getTableau().peekTopCard(1);
             if (game.moveCard(tempCard, source)) {
                 game.getTableau().removeTopCard(1);
+                scoring.scoreStockToTableau();
             }
             System.out.println("Tableau 02 Card: " + tempCard);
 
@@ -382,6 +399,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
             tempCard = game.getTableau().peekTopCard(2);
             if (game.moveCard(tempCard, source)) {
                 game.getTableau().removeTopCard(2);
+                scoring.scoreStockToTableau();
             }
             System.out.println("Tableau 03 Card: " + tempCard);
 
@@ -391,6 +409,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
             tempCard = game.getTableau().peekTopCard(3);
             if (game.moveCard(tempCard, source)) {
                 game.getTableau().removeTopCard(3);
+                scoring.scoreStockToTableau();
             }
             System.out.println("Tableau 04 Card: " + tempCard);
 
@@ -400,6 +419,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
             tempCard = game.getTableau().peekTopCard(4);
             if (game.moveCard(tempCard, source)) {
                 game.getTableau().removeTopCard(4);
+                scoring.scoreStockToTableau();
             }
             System.out.println("Tableau 05 Card: " + tempCard);
 
@@ -409,6 +429,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
             tempCard = game.getTableau().peekTopCard(5);
             if (game.moveCard(tempCard, source)) {
                 game.getTableau().removeTopCard(5);
+                scoring.scoreStockToTableau();
             }
             System.out.println("Tableau 06 Card: " + tempCard);
 
@@ -418,6 +439,8 @@ class Board extends JFrame implements ActionListener, MouseListener {
             tempCard = game.getTableau().peekTopCard(6);
             if (game.moveCard(tempCard, source)) {
                 game.getTableau().removeTopCard(6);
+                scoring.scoreStockToTableau();
+
             }
             System.out.println("Tableau 07 Card: " + tempCard);
 
@@ -426,12 +449,16 @@ class Board extends JFrame implements ActionListener, MouseListener {
         }
 
         updateLabels();
+        updateScoreLabel();
 
         if (!stopwatch.isRunning()) {
             stopwatch.start();
         }
-    }
 
+    }
+    private void updateScoreLabel() {
+        scoreLabel.setText("Score: " + scoring.getScore());
+    }
     @Override
     public void mouseReleased(MouseEvent e) {
         if (!stopwatch.isRunning()) {
