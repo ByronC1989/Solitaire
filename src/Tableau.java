@@ -29,7 +29,7 @@ public class Tableau {
             for (int j = 0; j <= i; j++) {
                 Card card = deck.drawCard();
                 if (j == i) {
-                    card.flipCard(); // Flip the last card in each column to face up
+                    card.flipCard();
                 }
                 columns.get(i).add(card);
             }
@@ -95,6 +95,21 @@ public class Tableau {
             } else if (!peekTopCard(columnIndex).getIsRed() && card.getIsRed()) {
                 column.add(card);
                 System.out.println("Added card: " + card + " to column: " + columnIndex);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean canAddCards(int columnIndex, List<Card> cards) {
+        List<Card> column = getColumn(columnIndex);
+        if (column.isEmpty() && cards.get(0).getRank() == 13) { // King
+            return true;
+        }
+        Card topCard = peekTopCard(columnIndex);
+        Card movingCard = cards.get(0);
+        if (topCard != null && topCard.getRank() - 1 == movingCard.getRank() && !movingCard.getIsFaceDown()) {
+            if ((topCard.getIsRed() && !movingCard.getIsRed()) || (!topCard.getIsRed() && movingCard.getIsRed())) {
                 return true;
             }
         }

@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.border.AbstractBorder;
 
 class RoundBorder extends AbstractBorder { // make the card slots rounded
@@ -26,12 +28,10 @@ class Board extends JFrame implements ActionListener, MouseListener {
     int width = 72;
     int height = 90;
     private ImageIcon talonIcon;
-    // Labels
     JLabel stockpileLabel; // stockpile label
     private JLabel talonLabel = new JLabel();
     JLabel text = new JLabel();
 
-    private final JLabel[] tableauLabels = new JLabel[7];
     private final JLabel[] foundationLabels = new JLabel[4];
     private JMenuBar menuBar;
     private JMenuItem gameItem;
@@ -51,18 +51,16 @@ class Board extends JFrame implements ActionListener, MouseListener {
         this.game = game;
 
         this.stopwatch = new Stopwatch();
-        this.stopwatch.setBounds(420, 250, 160, 25);
+        this.stopwatch.setBounds(10, 400, 160, 25);
         this.add(stopwatch);
 
         // create Frame
         this.setTitle("Solitaire"); // title
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
-        this.setSize(600, 500); // Frame Size -- maybe expand height
+        this.setSize(600, 500);
         this.setLayout(null);
-        this.getContentPane()
-                .setBackground(new Color(29, 117, 36)); // background colour
-        // board.pack();
+        this.getContentPane().setBackground(new Color(29, 117, 36)); // background colour - green
 
         // Creating a menu
         this.menuBar = new JMenuBar();
@@ -75,14 +73,11 @@ class Board extends JFrame implements ActionListener, MouseListener {
         gameMenu.add(exitItem);
         menuBar.add(gameMenu);
         this.setJMenuBar(menuBar);
-        // end of menu
 
         this.tableauPanel = new JPanel(); // create tableau Panel
         this.foundationPanel = new JPanel(); // create foundation panel
         this.deckPanel = new JPanel(); // Deck Panel Probably define in class
         this.tracker = new JPanel(); // Card Tracker Probably define in class
-
-        // this.setLocationRelativeTo(null);
     }
 
     public void setup() {
@@ -107,8 +102,9 @@ class Board extends JFrame implements ActionListener, MouseListener {
         deckPanel.setBackground(new Color(29, 117, 36));
         deckPanel.setBounds(420, 20, 160, 94);
         deckPanel.setLayout(null);
-
         stockpileLabel = new JLabel(scaledImage(new ImageIcon("src/Images/01_back.png")));
+        // stockpileLabel = new JLabel(scaledImage(new
+        // ImageIcon("Solitaire/src/Images/01_back.png")));
         stockpileLabel.setBounds(80, 2, width, height);
         talonLabel.setBounds(5, 2, width, height);
         talonLabel.addMouseListener(this);
@@ -129,7 +125,6 @@ class Board extends JFrame implements ActionListener, MouseListener {
             foundationLabels[i].setBorder(new RoundBorder(10));
             foundationLabels[i].setBounds(x, 2, width, height);
             foundationLabels[i].addMouseListener(this);
-            // add tableau icon here
             foundationPanel.add(foundationLabels[i]);
             x += 77;
         }
@@ -138,20 +133,39 @@ class Board extends JFrame implements ActionListener, MouseListener {
 
     private void initializeTableauPanel() {
         tableauPanel.setBackground(new Color(29, 117, 36));
-        tableauPanel.setBounds(10, 150, 560, 94);
+        tableauPanel.setBounds(10, 150, 560, 400);
         tableauPanel.setLayout(null);
-        int x = 5;
-        for (int i = 0; i < 7; i++) {
-            tableauLabels[i] = new JLabel();
-            tableauLabels[i].setBorder(new RoundBorder(10));
-            tableauLabels[i].setIcon(scaledImage(game.getTableau().peekTopCard(i).displayCard()));
-            tableauLabels[i].setBounds(x, 2, width, height);
-            tableauLabels[i].addMouseListener(this);
-            // add tableau icon here
-            tableauPanel.add(tableauLabels[i]);
-            x += 80;
-        }
+        cascadeTableau(); // init cascade
         this.add(tableauPanel);
+    }
+
+    private void cascadeTableau() {
+        tableauPanel.removeAll(); // clear panel before updating
+        int x = 5; // starting x pos
+
+        for (int i = 0; i < 7; i++) {
+            JPanel pilePanel = new JPanel();
+            pilePanel.setLayout(null); // supposed to use absolute layout for cascade??? seems to work
+            pilePanel.setBackground(new Color(29, 117, 36));
+            pilePanel.setBounds(x, 0, width, tableauPanel.getHeight()); // set area of pile panel
+
+            int yOffset = 0; // reset offset ea col
+            List<Card> column = game.getTableau().getColumn(i);
+
+            for (Card card : column) {
+                JLabel cardLabel = new JLabel(scaledImage(card.displayCard()));
+                cardLabel.setBounds(0, yOffset, width, height);
+                cardLabel.addMouseListener(this); // add mouse listener to ea card label
+                pilePanel.add(cardLabel, 0); // add each card at the 0th index to layer
+                yOffset += 20; // inc offset for cascade
+            }
+
+            tableauPanel.add(pilePanel); // display pilePanel on tableauPanel
+            x += 80;// inc x for next col
+        }
+
+        tableauPanel.repaint(); // repaint tableau panel to show changes
+        tableauPanel.revalidate(); // revalidate tableau panel - refresh layout
     }
 
     public void removePanels() {
@@ -159,17 +173,10 @@ class Board extends JFrame implements ActionListener, MouseListener {
         this.remove(foundationPanel);
         this.remove(deckPanel);
         this.remove(tracker);
-        // add clear labels
-        // use to update images of the foundation.
+
         for (int i = 0; i < 4; i++) {
             foundationLabels[i].setIcon(null);
             foundationLabels[i].setBorder(new RoundBorder(10));
-        }
-        // use to update images of the tableau.
-        for (int i = 0; i < 7; i++) {
-            tableauLabels[i].setIcon(null);
-            tableauLabels[i].setBorder(new RoundBorder(10));
-            System.out.println("Tableau clean up");
         }
         talonLabel.setIcon(null);
         game.cleanUp();
@@ -177,44 +184,33 @@ class Board extends JFrame implements ActionListener, MouseListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // control menu
         if (e.getSource() == gameItem) {
-            // needs some kind of update
-            System.out.println("new game");
             int dialogButton = JOptionPane.showConfirmDialog(null, "Are you sure?", "New Game",
                     JOptionPane.YES_NO_OPTION);
             if (dialogButton == JOptionPane.YES_OPTION) {
+                System.out.println("new game");
                 game.cleanUp();
                 game.initializeGame();
-                updateLabels();
+                cascadeTableau(); // display initial tableau
                 text.setText("Cards Remaining: " + game.getDeck().deckSize());
                 if (stopwatch.isRunning()) {
                     stopwatch.stop();
                     stopwatch.reset();
                 }
-            } else {
-                remove(dialogButton);
             }
         } else if (e.getSource() == exitItem) {
             int dialogButton = JOptionPane.showConfirmDialog(null, "Are you sure?", "Exit", JOptionPane.YES_NO_OPTION);
-
             if (dialogButton == JOptionPane.YES_OPTION) {
                 System.exit(0);
-            } else {
-                remove(dialogButton);
             }
         }
     }
 
     public ImageIcon scaledImage(ImageIcon image) {
-
         Image newImage = image.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        return new ImageIcon(newImage); // stockpile imgIcon
-
+        return new ImageIcon(newImage);
     }
 
-    // stateChange class to update talon/stockpile on
-    // click/////////////////////////////////////////
     public void drawDeck() {
         stockpileLabel.addMouseListener(new MouseAdapter() {
             @Override
@@ -222,22 +218,20 @@ class Board extends JFrame implements ActionListener, MouseListener {
                 Card talonCard = null;
                 if (game.getDeck().deckSize() > 0) {
                     game.getDeck().moveCardsToTalon(game.getTalon(), 1);
-
                     if (game.getTalon().topCard().getIsFaceDown()) {
-                        game.getTalon().topCard().flipCard(); // flip card
+                        game.getTalon().topCard().flipCard();
                     }
-
                     talonCard = game.getTalon().topCard();
                     talonIcon = talonCard.displayCard();
                     Timage.setIcon(talonIcon);
                     text.setText("Cards Remaining: " + game.getDeck().deckSize());
                     if (game.getDeck().deckSize() == 0) {
-                        stockpileLabel.setIcon(createGreyedOutImage(
-                                stockpileLabel.getIcon()));
+                        stockpileLabel.setIcon(createGreyedOutImage(stockpileLabel.getIcon()));
                     }
                 } else {
                     game.getTalon().moveCardsToDeck(game.getDeck(), game.getTalon().deckSize());
-                    // stockpileLabel.setIcon(backScaled);
+                    // stockpileLabel.setIcon(scaledImage(new
+                    // ImageIcon("Solitaire/src/Images/01_back.png")));
                     stockpileLabel.setIcon(scaledImage(new ImageIcon("src/Images/01_back.png")));
                     text.setText("Cards Remaining: " + game.getDeck().deckSize());
                     Timage.setIcon(null);
@@ -246,22 +240,20 @@ class Board extends JFrame implements ActionListener, MouseListener {
         });
     }
 
-    // Utility method to create a semi-transparent version of an existing icon
     private ImageIcon createGreyedOutImage(Icon originalIcon) {
         int width = originalIcon.getIconWidth();
         int height = originalIcon.getIconHeight();
         BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = img.createGraphics();
         originalIcon.paintIcon(null, g2, 0, 0);
-        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.9f)); // Very transparent
-        g2.setColor(new Color(128, 128, 128, 200)); // Light grey with very high transparency
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.9f));
+        g2.setColor(new Color(128, 128, 128, 200));
         g2.fillRect(0, 0, width, height);
         g2.dispose();
         return new ImageIcon(img);
     }
 
     private void updateLabels() {
-
         if (game.getTalon().deckSize() != 0) {
             talonIcon = game.getTalon().topCard().displayCard();
             Timage.setIcon(talonIcon);
@@ -269,39 +261,20 @@ class Board extends JFrame implements ActionListener, MouseListener {
             Timage.setIcon(null);
         }
 
-        // use to update images of the foundation.
         for (int i = 0; i < 4; i++) {
             if (game.getFoundation().topCard(i) != null) {
-                // System.out.println("Foundation " + (i + 1) + " " +
-                // game.getFoundation().topCard(i));
                 foundationLabels[i].setIcon(scaledImage(game.getFoundation().topCard(i).displayCard()));
             } else {
-                // System.out.println("Foundation " + (i + 1) + " is empty");
                 foundationLabels[i].setIcon(null);
                 foundationLabels[i].setBorder(new RoundBorder(10));
             }
         }
 
-        // use to update images of the tableau.
-        for (int i = 0; i < 7; i++) {
-            if (game.getTableau().peekTopCard(i) != null) {
-                // System.out.println("Tableau " + (i + 1) + " " +
-                // game.getTableau().peekTopCard(i));
-                if (game.getTableau().peekTopCard(i).getIsFaceDown()) {
-                    // flip card over if the next card is face down
-                    game.getTableau().peekTopCard(i).flipCard();
-                }
-                tableauLabels[i].setIcon(scaledImage(game.getTableau().peekTopCard(i).displayCard()));
-            } else {
-                // System.out.println("Tableau " + (i + 1) + " is empty");
-                tableauLabels[i].setIcon(null);
-                tableauLabels[i].setBorder(new RoundBorder(10));
-            }
-        }
+        cascadeTableau();// refresh tableau display
     }
 
-    Component srcPile; // Store the source pile -- move to top
-    Component destPile; // Store the destination pile -- move to top
+    Component srcPile;
+    Component destPile;
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -310,123 +283,86 @@ class Board extends JFrame implements ActionListener, MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-
         Card tempCard;
-        srcPile = e.getComponent(); // gets the component of what was clicked on.
+        srcPile = e.getComponent();
         String source = "";
 
         if (srcPile == talonLabel) {
-
             System.out.println("Pressed on: Talon Pile");
             source = "talon";
             tempCard = game.getTalon().drawCard();
             game.moveCard(tempCard, source);
-
         } else if (srcPile == foundationLabels[0]) {
-
             System.out.println("Pressed on: Foundation 01");
             tempCard = game.getFoundation().topCard(0);
             if (game.moveCardTableau(tempCard)) {
                 game.getFoundation().removetopCard(0);
             }
             System.out.println("Foundation 01 Card: " + tempCard);
-
         } else if (srcPile == foundationLabels[1]) {
-
             System.out.println("Pressed on: Foundation 02");
             tempCard = game.getFoundation().topCard(1);
             if (game.moveCardTableau(tempCard)) {
                 game.getFoundation().removetopCard(1);
             }
             System.out.println("Foundation 02 Card: " + tempCard);
-
         } else if (srcPile == foundationLabels[2]) {
-
             System.out.println("Pressed on: Foundation 03");
             tempCard = game.getFoundation().topCard(2);
             if (game.moveCardTableau(tempCard)) {
                 game.getFoundation().removetopCard(2);
             }
             System.out.println("Foundation 03 Card: " + tempCard);
-
         } else if (srcPile == foundationLabels[3]) {
-
             System.out.println("Pressed on: Foundation 04");
             tempCard = game.getFoundation().topCard(3);
             if (game.moveCardTableau(tempCard)) {
                 game.getFoundation().removetopCard(3);
             }
             System.out.println("Foundation 04 Card: " + tempCard);
-
-        } else if (srcPile == tableauLabels[0]) {
-
-            System.out.println("Pressed on: Tableau 01");
-            tempCard = game.getTableau().peekTopCard(0);
-            if (game.moveCard(tempCard, source)) {
-                game.getTableau().removeTopCard(0);
-            }
-            System.out.println("Tableau 01 Card: " + tempCard);
-
-        } else if (srcPile == tableauLabels[1]) {
-
-            System.out.println("Pressed on: Tableau 02");
-            tempCard = game.getTableau().peekTopCard(1);
-            if (game.moveCard(tempCard, source)) {
-                game.getTableau().removeTopCard(1);
-            }
-            System.out.println("Tableau 02 Card: " + tempCard);
-
-        } else if (srcPile == tableauLabels[2]) {
-
-            System.out.println("Pressed on: Tableau 03");
-            tempCard = game.getTableau().peekTopCard(2);
-            if (game.moveCard(tempCard, source)) {
-                game.getTableau().removeTopCard(2);
-            }
-            System.out.println("Tableau 03 Card: " + tempCard);
-
-        } else if (srcPile == tableauLabels[3]) {
-
-            System.out.println("Pressed on: Tableau 04");
-            tempCard = game.getTableau().peekTopCard(3);
-            if (game.moveCard(tempCard, source)) {
-                game.getTableau().removeTopCard(3);
-            }
-            System.out.println("Tableau 04 Card: " + tempCard);
-
-        } else if (srcPile == tableauLabels[4]) {
-
-            System.out.println("Pressed on: Tableau 05");
-            tempCard = game.getTableau().peekTopCard(4);
-            if (game.moveCard(tempCard, source)) {
-                game.getTableau().removeTopCard(4);
-            }
-            System.out.println("Tableau 05 Card: " + tempCard);
-
-        } else if (srcPile == tableauLabels[5]) {
-
-            System.out.println("Pressed on: Tableau 06");
-            tempCard = game.getTableau().peekTopCard(5);
-            if (game.moveCard(tempCard, source)) {
-                game.getTableau().removeTopCard(5);
-            }
-            System.out.println("Tableau 06 Card: " + tempCard);
-
-        } else if (srcPile == tableauLabels[6]) {
-
-            System.out.println("Pressed on: Tableau 07");
-            tempCard = game.getTableau().peekTopCard(6);
-            if (game.moveCard(tempCard, source)) {
-                game.getTableau().removeTopCard(6);
-            }
-            System.out.println("Tableau 07 Card: " + tempCard);
-
         } else {
-            System.out.println("Something went wrong: Pressed");
+            for (int i = 0; i < 7; i++) {
+                JPanel pilePanel = (JPanel) tableauPanel.getComponent(i);
+                int cardCount = pilePanel.getComponentCount();
+                if (cardCount == 0)
+                    continue; // skip empty piles
+
+                for (int j = 0; j < cardCount; j++) {
+                    JLabel cardLabel = (JLabel) pilePanel.getComponent(j);
+                    if (e.getSource() == cardLabel) {
+                        System.out.println("Pressed on: Tableau " + (i + 1));
+                        List<Card> column = game.getTableau().getColumn(i);
+
+                        // flip card if not face up
+                        boolean faceUpCardFound = false;
+                        for (Card card : column) {
+                            if (!card.getIsFaceDown()) {
+                                faceUpCardFound = true;
+                                break;
+                            }
+                        }
+
+                        if (!faceUpCardFound && !column.isEmpty()) {
+                            Card bottomCard = column.get(column.size() - 1);
+                            if (bottomCard.getIsFaceDown()) {
+                                bottomCard.flipCard();
+                                System.out.println("Flipped card: " + bottomCard);
+                                break;
+                            }
+                        } else {
+                            // Move the top face-up card
+                            tempCard = game.getTableau().peekTopCard(i);
+                            if (game.moveCard(tempCard, source)) {
+                                game.getTableau().removeTopCard(i);
+                            }
+                            System.out.println("Tableau " + (i + 1) + " Card: " + tempCard);
+                        }
+                        break;
+                    }
+                }
+            }
         }
-
         updateLabels();
-
         if (!stopwatch.isRunning()) {
             stopwatch.start();
         }
@@ -441,13 +377,10 @@ class Board extends JFrame implements ActionListener, MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
-        destPile = e.getComponent(); // updates component with what label the mouse entered last
-
+        destPile = e.getComponent();
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-
     }
 }
