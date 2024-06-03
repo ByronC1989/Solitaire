@@ -330,8 +330,7 @@ class Board extends JFrame implements ActionListener, MouseListener {
             source = "talon";
             tempCard = game.getTalon().drawCard();
             game.moveCard(tempCard, source);
-            scoring.scoreStockToTableau(); //this method is for points
-
+            scoring.scoreStockToTableau();
 
         } else if (srcPile == foundationLabels[0]) {
 
